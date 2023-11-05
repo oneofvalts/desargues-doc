@@ -1,5 +1,11 @@
+*.swp
 *~
+
 *.aux
 *.log
 *.out
 *.toc
+*.run.xml
+*.gz
+
+svg-inkscape

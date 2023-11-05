@@ -1,0 +1,65 @@
+\documentclass[12pt, oneside]{memoir}
+
+\newlength{\pagew}
+\newlength{\pageh}
+\setlength{\pagew}{210mm}
+\setlength{\pageh}{297mm}
+
+\setstocksize{\pageh}{\pagew}
+\settrimmedsize{\pageh}{\pagew}{*}
+\settypeblocksize{250mm}{150mm}{*}
+\setlrmargins{*}{*}{1}
+\setulmargins{*}{*}{1}
+\setmarginnotes{0cm}{0cm}{0cm}
+\checkandfixthelayout
+
+\usepackage{tgpagella}
+\usepackage[T1]{fontenc}
+
+\usepackage{amsthm}
+
+\usepackage{svg}
+
+\usepackage{lipsum}
+
+\newtheorem{theorem}{Théorème}
+\theoremstyle{definition}
+\newtheorem{definition}{Définition}
+
+\begin{document}
+\thispagestyle{empty}
+\vspace*{\fill}
+\begin{center}
+  \includesvg[width=3cm]{logo.svg} \\
+  \vspace{1cm}
+  \large{\textbf{PROJET DE FIN D'ÉTUDES}} \\
+  \vspace{0.5cm}
+  {\small pour obtenir le diplôme de} \\
+  \vspace{0.5cm}
+  l'\textsc{\textbf{Université Galatasaray}} \\
+  {\small Spécialité : \textbf{Mathématiques}} \\
+  \vspace{2.25cm}
+  {\Large\textbf{Formalisation du théorème de Desargue en Lean 4}}\\
+  Rapport 1 \\
+  \vspace{1.25cm}
+  Préparé par \textbf{Abdullah Uyu} \\
+  Résponsable : \textbf{Can Ozan Oğuz} \\
+  \vspace{2.25cm}
+  \textit{5 novembre 2023}
+\end{center}
+\vspace*{\fill}
+\clearpage
+\pagenumbering{arabic}
+\section*{Introduction}
+\lipsum[1]
+\section*{Objectifs du Projet}
+\lipsum[2]
+\section*{Résultats Préliminaires}
+\lipsum[3]
+\begin{definition}
+\end{definition}
+\begin{theorem}
+\end{theorem}
+\section*{Prochaines Étapes}
+\lipsum[11]
+\end{document}
