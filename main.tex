@@ -13,53 +13,243 @@
 \setmarginnotes{0cm}{0cm}{0cm}
 \checkandfixthelayout
 
+%\usepackage[pass, showframe]{geometry}
+
+\usepackage{mathpazo}
 \usepackage{tgpagella}
 \usepackage[T1]{fontenc}
 
+\usepackage{mathtools}
+\usepackage{amsmath}
 \usepackage{amsthm}
+\usepackage[mathscr]{eucal}
 
+\usepackage{graphicx}
 \usepackage{svg}
 
+\usepackage{enumitem}
+\usepackage{tabto}
 \usepackage{lipsum}
 
-\newtheorem{theorem}{Théorème}
+\usepackage{biblatex}
+\addbibresource{main.bib}
+
+\usepackage{tikz}
+
+\newtheorem{thm}{Théorème}
+\newtheorem{prop}{Proposition}
 \theoremstyle{definition}
-\newtheorem{definition}{Définition}
+\newtheorem{defn}{Définition}
+
+% Unbutton the vector space from its origin.
+\newcommand{\unbutton}[1][.6]{\mathbin{\vcenter{\hbox{\scalebox{#1}{$\bullet$}}}}}
+
+% Definitional equal.
+\newcommand{\defeq}{\vcentcolon=}
+
+% Explicit set and set comprehension.
+\newcommand{\set}[1]{\{ #1 \}}
+\newcommand{\setcomp}[2]{\set{ #1 \,|\, #2 }}
+
+% Projectivization.
+\newcommand{\proj}{\boldsymbol{\mathscr{P}}}
+
+% Disjoint union.
+\newcommand{\discup}{\mathop{\dot{\cup}}}
+
+% Partial map.
+\newcommand*{\DashedArrow}[1][]{\mathbin{\tikz [baseline=-0.25ex,-latex, dashed,#1] \draw [#1] (0pt,0.5ex) -- (1.3em,0.5ex);}}%
+\newcommand{\partialto}{\DashedArrow[->,dash pattern=on 4pt off 2pt]}
+
+% Kernel and domain.
+\DeclareMathOperator{\kernel}{Ker}
+\DeclareMathOperator{\domain}{Dom}
 
 \begin{document}
 \thispagestyle{empty}
-\vspace*{\fill}
 \begin{center}
-  \includesvg[width=3cm]{logo.svg} \\
+  \vspace*{\fill}
+  % {%
+  % \setlength{\fboxsep}{0pt}%
+  % \fbox{\includesvg[width=3cm]{logo.svg}}%
+  % }
+  \includesvg[width=2.5cm]{logo.svg}
+
   \vspace{1cm}
-  \large{\textbf{PROJET DE FIN D'ÉTUDES}} \\
+  \large{\textbf{PROJET DE FIN D'ÉTUDES}}
+
   \vspace{0.5cm}
-  {\small pour obtenir le diplôme de} \\
+  {\small pour obtenir le diplôme de}
+
   \vspace{0.5cm}
-  l'\textsc{\textbf{Université Galatasaray}} \\
-  {\small Spécialité : \textbf{Mathématiques}} \\
+  l'\textsc{\textbf{Université Galatasaray}}
+
+  {\small Spécialité : \textbf{Mathématiques}}
+
   \vspace{2.25cm}
-  {\Large\textbf{Formalisation du théorème de Desargue en Lean 4}}\\
-  Rapport 1 \\
+  {\Large\textbf{Formalisation du théorème de Desargue en Lean 4}}
+
+  Rapport 1
+
   \vspace{1.25cm}
-  Préparé par \textbf{Abdullah Uyu} \\
-  Résponsable : \textbf{Can Ozan Oğuz} \\
+  Préparé par \textbf{Abdullah Uyu}
+
+  Résponsable : \textbf{Can Ozan Oğuz}
+
   \vspace{2.25cm}
   \textit{5 novembre 2023}
+  \vspace*{\fill}
 \end{center}
-\vspace*{\fill}
 \clearpage
 \pagenumbering{arabic}
 \section*{Introduction}
-\lipsum[1]
+Lean 4 est un assistant de preuve. La transcription d'une preuve en
+langage humain dans un assistant de preuve est appelée
+\textit{formalisation}. Lean 4 dispose d'une grande bibliothèque de
+preuves, y compris de nombreuses preuves de licence, appelée
+mathlib4. Dans cette bibliothèque, il y a d'importants théorèmes
+manquants, et le théorème de Desargue est l'un d'entre eux.
 \section*{Objectifs du Projet}
-\lipsum[2]
+Ce projet vise à formaliser le théorème de Desargue dans Lean 4, en
+trois étapes. Tout d'abord, la preuve en langage humain du théorème
+sera minutieusement assimilée. Pour cela, le livre "Modern Projective
+Geometry" de Claude-Alain Faure et Alfred Frölicher sera utilisé. Ce
+livre offre un cadre complet pour l'étude des géométries
+projectives. En particulier, le théorème de Desargue est compris en
+termes d'endomorphismes des géométries projectives et la preuve est
+effectuée en conséquence. Deuxièmement, l'existence des transcriptions
+de la machinerie requise, dans mathlib4 sera vérifiée. Quelques
+exemples seraient la définition de la projectivisation, des fonctions
+partielles, etc. Enfin, le schéma complet de la preuve sera
+transcrit. Cela nécessitera probablement une bonne maîtrise de la
+programmation en Lean 4, et il est prévu que cette exigence soit
+satisfaite en cours de route.
 \section*{Résultats Préliminaires}
-\lipsum[3]
-\begin{definition}
-\end{definition}
-\begin{theorem}
-\end{theorem}
+Tout le matériel mentionné dans cette section est tiré du
+livre susmentionné. Il est à noter qu'ils étaient à l'origine en
+anglais et qu'ils ont donc été traduits.  Notons tout d'abord la
+définition d'une géométrie projective.
+\begin{defn}
+  Une \textit{géométrie projective} est un ensemble $G$ accompagné
+  d'une relation ternaire $\ell \subseteq G \times G \times G$ telle
+  que les axiomes suivants sont satisfaits :
+  \begin{itemize}[align=left]
+  \item[($\text{L}_1$)] $\ell(a,b,a)$ pour tout $a, b \in G$.
+  \item[($\text{L}_2$)] $\ell(a,p,q)$, $\ell(b,p,q)$ et $p \neq q$
+    $\implies$ $\ell(a,b,p)$.
+  \item[($\text{L}_3$)] $\ell(p,a,b)$ et $\ell(p,c,d)$ $\implies$
+    $\ell(q,a,c)$ et $(\ell(q,b,d)$ pour un $q \in G$.
+  \end{itemize}
+  Les éléments de $G$ sont appelés les \textit{points} de la
+  géométrie. Et trois points $a, b, c$ sont dits \textit{colinéaires}
+  si $\ell(a,b,c)$.
+\end{defn}
+Un système équivalent d'axiomes utilisant l'ensemble, par exemple,
+$a \star b$, créé par $\ell$ est omis ici, par souci de concision. La
+définition de morphisme sera donnée à l'aide de ce système.
+
+Notons l'exemple le plus important pour une géométrie projective. En
+fait, la formalisation sera effectuée avec cet exemple mais pas avec
+la définition abstraite ci-dessus. De plus, la version du théorème
+dans la géométrie euclidienne ne sera qu'une instance du théorème sur
+cet exemple.
+\begin{prop}
+  Soit $V$ un espace vectoriel. Sur
+  $V^{\unbutton} \defeq V \setminus \set{0}$, on définit une relation
+  binaire comme suit: $x \sim y$ ssi $x, y$ sont linéairement
+  indépendants. Comme ceci est une relation d'équivalence, l'ensemble
+  quotient $\proj(V) \defeq V^{\unbutton} / \sim$ est bien défini et
+  devient une géométrie projective si pour tout élément
+  $X, Y, Z \in \proj(V)$ on définit : $\ell(X,Y,Z)$ ssi $X, Y, Z$ ont
+  des représentants $x, y, z$ linéairement dépendants.
+\end{prop}
+Notons maintenant la définition d'un isomorphisme de géométries
+projectives et une proposition d'isomorphisme.
+\begin{defn}
+  Un \textit{isomorphisme} de géométries projectives est une bijection
+  $g: G_1 \to G_2$ satisfaisant $\ell_1(a,b,c)$ ssi
+  $\ell_2(ga,gb,gc)$. Si $G_1 = G_2$, alors on dit que $g$ est une
+  \textit{collinéation}.
+\end{defn}
+\begin{prop}
+  Pour un $K$-espace vectoriel $V$, il existe une bijection naturelle
+  \begin{equation*}
+    \label{natural-bijection}
+    s: \proj(V \times K) \to V \discup \proj(V)
+  \end{equation*}
+  induite par la fonction
+  $t: (V \times K)^{\unbutton} \to V \discup \proj(V)$ définie par
+  $t(x,\xi) = \xi^{-1}x$ if $\xi \neq 0$ et $t(x,0) = [x]$ pour
+  $x \neq 0$, où $[x]$ désigne le point de $\proj(V)$ représenté par
+  $x$. Il existe donc une relation ternaire unique $\overline{\ell}$ sur
+  $V \discup \proj(V)$ pour laquelle $V \discup \proj(V)$ devient une
+  géométrie projective et $s$ un isomorphisme. De plus, on a:
+  \NumTabs{2}
+  \begin{enumerate}[align=left]
+  \item $\overline{\ell}(x, y, z)$ \tabto{3cm} ssi $x-z$ et $y-z$ sont linéairement
+    dépendants dans $V$,
+  \item $\overline{\ell}(x, y, [z])$ \tabto{3cm} ssi $x-y = \mu z$ pour un $\mu \in
+    K$
+  \item $\overline{\ell}(x, [y], [z])$ \tabto{3cm} ssi $[y] = [z]$,
+  \item $\overline{\ell}([x], [y], [z])$ \tabto{3cm} ssi $\ell([x], [y], [z])$.
+  \end{enumerate}
+\end{prop}
+Pour arriver à définir les endomorphisms, on note les définitions de
+fonction partielle, de noyau et domaine d'un fonction partielle, de
+sous-espace d'un géométrie projective, de morphisme et d'hyperplan.
+\begin{defn}
+  Une \textit{fonction partielle} de $X$ dans $Y$ est une fonction
+  $f: X \setminus N \to Y$ définie sur le complément d'un
+  sous-ensemble $N \subseteq X$. Si $f$ est une fonction partielle de
+  $X$ dans $Y$, on écrit $f: X \partialto Y$, ou encore $f: X \to Y$
+  si on sait que $N = \emptyset$. L'ensemble $N$ est appelé
+  \textit{noyau} de $f$ et sera désigné par $\kernel f$. L'ensemble
+  $X \setminus N$ est appelé \textit{domaine} de $f$ et sera désigné
+  par $\domain f$.
+\end{defn}
+\begin{defn}
+  Un \textit{sous-espace} d'un géométrie projective $G$ est un sous-ensemble $E
+  \subseteq G$ satisfaisant:
+  \begin{equation*}
+    \label{subspace}
+    a,b \in E \implies a \star b \subseteq E
+  \end{equation*}
+\end{defn}
+\begin{defn}
+  Un \textit{morphisme} d'un géométrie projective $G_1$ dans un
+  géométrie projective $G_2$ est une fonction partielle $g: G_1
+  \partialto G_2$ satisfaisant les axiomes suivant:
+  \begin{itemize}[align=left]
+  \item[($\text{M}_1$)] $\kernel g$ est un sous-espace de $G_1$,
+  \item[($\text{M}_2$)] si $a, b \not\in N$, $c \in N$ et $a \in b
+    \star c$, alors $ga = gb$,
+  \item[($\text{M}_3$)] si $a, b, c \not\in N$ et $a \in b \star c$,
+    alors $ga \in gb \star gc$.
+  \end{itemize}
+\end{defn}
+\begin{defn}
+  Un \textit{hyperplan} d'une géométrie projective $G$ est un
+  sous-espace $H$ de $G$ qui est maximal parmi les sous-espaces
+  stricts de $G$.
+\end{defn}
+Nous définissons enfin les endomorphismes, ainsi que le centre et
+l'axe d'un endomorphisme.
+\begin{defn}
+  Un \textit{endomorphisme} d'un géométrie projective $G$ est un
+  morphisme $\varphi: G \partialto G$. Un \textit{centre} d'un
+  endomorphisme $\varphi: G \partialto G$ est un point $z \in G$ tel
+  que $\varphi x \in x \star z$ pour tout $x \in \domain \varphi$. Un
+  \textit{axe} d'un endomorphisme $\varphi: G \partialto G$ est un
+  hyperplan $H \subseteq G$ tel que $\varphi x = x$ pour tout $x \in H
+  \cap \domain \varphi$.
+\end{defn}
 \section*{Prochaines Étapes}
-\lipsum[11]
+La dernière session d'étude a porté sur la compréhension de base des
+morphismes, c'est pourquoi un approfondissement des morphismes est
+prévu. Par exemple, le livre donne \textit{l'implosion} et
+\textit{l'explosion} comme exemples d'endomorphismes. Comme la
+compréhension visuelle est essentielle dans cette étude, la
+visualisation de ces exemples apparaît comme une suite immédiate.
+\nocite{*}
+\printbibliography[title=Références,heading=subbibliography]
 \end{document}
