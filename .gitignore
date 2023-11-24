@@ -11,4 +11,9 @@
 *.bcf
 *.blg
 
+*.dvi
+*.ps
+
 svg-inkscape
+drawing
+
