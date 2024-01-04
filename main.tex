@@ -15,7 +15,8 @@
 
 % \usepackage[pass, showframe]{geometry}
 
-\usepackage{mathpazo}
+\usepackage[french]{babel}
+
 \usepackage{tgpagella}
 \usepackage[T1]{fontenc}
 \usepackage[mathscr]{eucal}
@@ -23,6 +24,7 @@
 \usepackage{mathtools}
 \usepackage{amsmath}
 \usepackage{amsthm}
+\usepackage{newpxmath}
 
 \usepackage{float}
 \usepackage{graphicx}
@@ -55,6 +57,8 @@ colorlinks
 
 \counterwithout{figure}{chapter}
 \maxtocdepth{subsection}
+\setsecnumdepth{section}
+\renewcommand\thesection{\arabic{section}}
 
 \newtheorem{thm}{Théorème}
 \newtheorem{prop}{Proposition}
@@ -78,7 +82,9 @@ colorlinks
 \newcommand{\discup}{\mathop{\dot{\cup}}}
 
 % Partial map.
-\newcommand*{\DashedArrow}[1][]{\mathbin{\tikz [baseline=-0.25ex,-latex, dashed,#1] \draw [#1] (0pt,0.5ex) -- (1.3em,0.5ex);}}%
+\newcommand*{\DashedArrow}[1][]{\mathbin{\tikz
+    [baseline=-0.25ex,-latex, dashed,#1] \draw [#1] (0pt,0.5ex) --
+    (1.3em,0.5ex);}}%
 \newcommand{\partialto}{\DashedArrow[->,dash pattern=on 4pt off 2pt]}
 
 % Kernel and domain.
@@ -86,7 +92,7 @@ colorlinks
 \DeclareMathOperator{\domain}{Dom}
 
 % common sets
-\newcommand{\R}{\mathbb{R}}
+\newcommand{\R}{\mathbf{R}}
 
 \begin{document}
 \thispagestyle{empty}
@@ -125,19 +131,19 @@ colorlinks
 \end{center}
 \clearpage
 \pagenumbering{arabic}
-\section*{Introduction}
+\section{Introduction}
 Lean 4 est un assistant de preuve. La transcription d'une preuve en
 langage humain dans un assistant de preuve est appelée
 \textit{formalisation}. Lean 4 dispose d'une grande bibliothèque de
 preuves, y compris de nombreuses preuves du niveau de licence, appelée
 mathlib4. Dans cette bibliothèque, il y a d'importants théorèmes
 manquants, et le théorème de Desargue est l'un d'entre eux.
-\section*{Objectifs du Projet}
+\section{Objectifs du Projet}
 Les deux aspects principaux de ce projet sont l'apprentissage des
 rudiments de la théorie des géométries projectives, et de la
 programmation en Lean 4. Avec ces deux aspects, le but ultime est de
 formaliser le théorème de Desargue dans Lean 4.
-\section*{Résultats Préliminaires}
+\section{Résultats Préliminaires}
 Pour motiver les géométries projectives, on commence par considérer
 les droites passant par l'origine dans le plan. On peut représenter la
 plupart de ces lignes par des points sur l'axe $y=1$.
@@ -216,19 +222,19 @@ Ce processus s'appelle la \textit{projectivisation d'un espace
 \begin{defn}[{\cite[27]{ff00}}]
   Soit $V$ un espace vectoriel. Sur
   $V^{\unbutton} \defeq V \setminus \set{0}$, on définit une relation
-  binaire comme suit : $x \sim y$ ssi $x, y$ sont linéairement
-  indépendants. Comme ceci est une relation d'équivalence, l'ensemble
-  quotient $\proj(V) \defeq V^{\unbutton} / {\sim}$ est bien
-  défini. $\proj(V)$ est appelée la \textit{projectivisation de
-    l'espace vectoriel $V$}.
+  binaire comme suit : $x \sim y$ si et seulement si $x, y$ sont
+  linéairement indépendants. Comme ceci est une relation
+  d'équivalence, l'ensemble quotient
+  $\proj(V) \defeq V^{\unbutton} / {\sim}$ est bien défini. $\proj(V)$
+  est appelée la \textit{projectivisation de l'espace vectoriel $V$}.
 \end{defn}
-Pour simplifier le langage, nous aurons également besoin de la
-définition de l'union disjointe.
-\begin{defn}
-  Soit $A$ et $B$ deux ensembles. L'union
-  $(A \times \set{1}) \cup (B \times \set{0})$, noté $A \discup B$, est
-  appelée \textit{union disjointe} de $A$ et $B$.
-\end{defn}
+% Pour simplifier le langage, nous aurons également besoin de la
+% définition de l'union disjointe.
+% \begin{defn}
+%   Soit $A$ et $B$ deux ensembles. L'union
+%   $(A \times \set{1}) \cup (B \times \set{0})$, noté $A \discup B$, est
+%   appelée \textit{union disjointe} de $A$ et $B$.
+% \end{defn}
 La motivation ci-dessus peut donc être formulée comme suit :
 \begin{align*}
   \label{eq:embedding}
@@ -249,20 +255,21 @@ suivante n'est qu'une généralisation de ce processus.
   \end{equation*}
   induite par la fonction
   $t: (V \times K)^{\unbutton} \to V \discup \proj(V)$ définie par
-  $t(x,\xi) = \xi^{-1}x$ if $\xi \neq 0$ et $t(x,0) = [x]$ pour
+  $t(x,\xi) = \xi^{-1}x$ si $\xi \neq 0$ et $t(x,0) = [x]$ pour
   $x \neq 0$, où $[x]$ désigne le point de $\proj(V)$ représenté par
   $x$.
   % Il existe donc une relation ternaire unique $\overline{\ell}$ sur
-  % $V \discup \proj(V)$ pour laquelle $V \discup \proj(V)$ devient une
-  % géométrie projective et $s$ un isomorphisme. De plus, on a:
+  % $V \discup \proj(V)$ pour laquelle $V \discup \proj(V)$ devient
+  % une géométrie projective et $s$ un isomorphisme. De plus, on a:
   % \NumTabs{2}
   % \begin{enumerate}[align=left]
-  % \item $\overline{\ell}(x, y, z)$ \tabto{3cm} ssi $x-z$ et $y-z$ sont linéairement
-  %   dépendants dans $V$,
-  % \item $\overline{\ell}(x, y, [z])$ \tabto{3cm} ssi $x-y = \mu z$ pour un $\mu \in
-  %   K$
+  % \item $\overline{\ell}(x, y, z)$ \tabto{3cm} ssi $x-z$ et $y-z$
+  %   sont linéairement dépendants dans $V$,
+  % \item $\overline{\ell}(x, y, [z])$ \tabto{3cm} ssi $x-y = \mu z$
+  %   pour un $\mu \in K$
   % \item $\overline{\ell}(x, [y], [z])$ \tabto{3cm} ssi $[y] = [z]$,
-  % \item $\overline{\ell}([x], [y], [z])$ \tabto{3cm} ssi $\ell([x], [y], [z])$.
+  % \item $\overline{\ell}([x], [y], [z])$ \tabto{3cm} ssi
+  %   $\ell([x], [y], [z])$.
   % \end{enumerate}
 \end{prop}
 
@@ -282,8 +289,9 @@ suivante n'est qu'une généralisation de ce processus.
   si $\ell(a,b,c)$.
 \end{defn}
 % Un système équivalent d'axiomes utilisant l'ensemble, par exemple,
-% $a \star b$, créé par $\ell$ est omis ici, par souci de concision. La
-% définition de morphisme sera donnée à l'aide de ce système.
+% $a \star b$, créé par $\ell$ est omis ici, par souci de
+% concision. La définition de morphisme sera donnée à l'aide de ce
+% système.
 
 Notons l'exemple le plus important pour une géométrie projective. Lors
 d'une discussion sur la chaîne de Zulip de Lean 4, Joseph Myers a
@@ -296,14 +304,14 @@ projective.
 \begin{prop}[{\cite[27]{ff00}}]
   Pour un espace vectoriel $V$, $\proj(V)$ est une géométrie
   projective si pour tout élément $X, Y, Z \in \proj(V)$ on définit :
-  $\ell(X,Y,Z)$ ssi $X, Y, Z$ ont des représentants $x, y, z$
-  linéairement dépendants.
+  $\ell(X,Y,Z)$ si et seulement si $X, Y, Z$ ont des représentants
+  $x, y, z$ linéairement dépendants.
 \end{prop}
 Notons maintenant la définition d'un isomorphisme de géométries
 projectives.
 \begin{defn}[{\cite[27]{ff00}}]
   Un \textit{isomorphisme} de géométries projectives est une bijection
-  $g: G_1 \to G_2$ satisfaisant $\ell_1(a,b,c)$ ssi
+  $g: G_1 \to G_2$ satisfaisant $\ell_1(a,b,c)$ si et seulement si
   $\ell_2(ga,gb,gc)$. Si $G_1 = G_2$, alors on dit que $g$ est une
   \textit{collinéation}.
 \end{defn}
@@ -321,8 +329,8 @@ projectives.
 %   par $\domain f$.
 % \end{defn}
 % \begin{defn}
-%   Un \textit{sous-espace} d'un géométrie projective $G$ est un sous-ensemble $E
-%   \subseteq G$ satisfaisant :
+%   Un \textit{sous-espace} d'un géométrie projective $G$ est un
+%   sous-ensemble $E \subseteq G$ satisfaisant :
 %   \begin{equation*}
 %     \label{subspace}
 %     a,b \in E \implies a \star b \subseteq E
@@ -356,7 +364,7 @@ projectives.
 %   hyperplan $H \subseteq G$ tel que $\varphi x = x$ pour tout $x \in H
 %   \cap \domain \varphi$.
 % \end{defn}
-\section*{Prochaines Étapes}
+\section{Prochaines Étapes}
 Tout d'abord, la preuve en langage humain du théorème sera
 minutieusement assimilée. Pour cela, le livre "Modern Projective
 Geometry" \cite{ff00} de Claude-Alain Faure et Alfred Frölicher sera
