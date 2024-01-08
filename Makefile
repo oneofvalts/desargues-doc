@@ -1,17 +1,11 @@
 quick:
 	# assume (or ignore) references
-	latex --shell-escape main.tex
-	dvips main.dvi
-	ps2pdf main.ps
+	xelatex --shell-escape main.tex
 
 all:
 	# first pass
-	latex --shell-escape main.tex
-	dvips main.dvi
-	ps2pdf main.ps
+	xelatex --shell-escape main.tex
 	# references
 	biber main
 	# second pass
-	latex --shell-escape main.tex
-	dvips main.dvi
-	ps2pdf main.ps
+	xelatex --shell-escape main.tex

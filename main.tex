@@ -17,22 +17,43 @@
 
 \usepackage[french]{babel}
 
-\usepackage{tgpagella}
-\usepackage[T1]{fontenc}
-\usepackage[mathscr]{eucal}
+% \usepackage{tgpagella}
+% \usepackage[T1]{fontenc}
 
 \usepackage{mathtools}
+\usepackage[mathscr]{eucal}
 \usepackage{amsmath}
 \usepackage{amsthm}
+\usepackage{physics}
 \usepackage{newpxmath}
 
-\usepackage{float}
+\usepackage[no-math]{fontspec}
+\setmainfont{TeX Gyre Pagella}
+\setmonofont[Scale=MatchLowercase]{JuliaMono}
+
+\usepackage{mathspec} 
+\setmathrm{TeX Gyre Pagella}
+\setmathfont(Digits,Latin){TeX Gyre Pagella}
+
+\makeatletter % undo the wrong changes made by mathspec
+\let\RequirePackage\original@RequirePackage
+\let\usepackage\RequirePackage
+\makeatother
+
 \usepackage{graphicx}
 \usepackage{svg}
+\usepackage{minted}
 
+\newmintinline[lean]{lean4.py:Lean4Lexer -x}{bgcolor=white}
+\newminted[leancode]{lean4.py:Lean4Lexer -x}{fontsize=\footnotesize}
+\usemintedstyle{tango} 
+
+\usepackage{float}
 \usepackage{enumitem}
 \usepackage{tabto}
+
 \usepackage{lipsum}
+\usepackage{dirtytalk}
 
 \usepackage{pst-solides3d}
 \psset
@@ -52,8 +73,11 @@ style=alphabetic
 \addbibresource{main.bib}
 
 \usepackage[
+unicode,
 colorlinks
 ]{hyperref}
+
+\usepackage{cleveref}
 
 \counterwithout{figure}{chapter}
 \maxtocdepth{subsection}
@@ -64,6 +88,8 @@ colorlinks
 \newtheorem{prop}{Proposition}
 \theoremstyle{definition}
 \newtheorem{defn}{Définition}
+\theoremstyle{remark}
+\newtheorem{exm}{Exemple}
 
 % Unbutton the vector space from its origin.
 \newcommand{\unbutton}[1][.6]{\mathbin{\vcenter{\hbox{\scalebox{#1}{$\bullet$}}}}}
@@ -91,7 +117,7 @@ colorlinks
 \DeclareMathOperator{\kernel}{Ker}
 \DeclareMathOperator{\domain}{Dom}
 
-% common sets
+% Common sets
 \newcommand{\R}{\mathbf{R}}
 
 \begin{document}
@@ -118,7 +144,7 @@ colorlinks
   \vspace{2.25cm}
   {\Large\textbf{Formalisation du théorème de Desargues en Lean 4}}
 
-  Rapport 1
+  Rapport 2
 
   \vspace{1.25cm}
   Préparé par \textbf{Abdullah Uyu}
@@ -130,8 +156,10 @@ colorlinks
   \vspace*{\fill}
 \end{center}
 \clearpage
+\tableofcontents
 \pagenumbering{arabic}
-\section{Introduction}
+\chapter{Introduction}
+\section{Motivation}
 Lean 4 est un assistant de preuve. La transcription d'une preuve en
 langage humain dans un assistant de preuve est appelée
 \textit{formalisation}. Lean 4 dispose d'une grande bibliothèque de
@@ -143,7 +171,8 @@ Les deux aspects principaux de ce projet sont l'apprentissage des
 rudiments de la théorie des géométries projectives, et de la
 programmation en Lean 4. Avec ces deux aspects, le but ultime est de
 formaliser le théorème de Desargue dans Lean 4.
-\section{Résultats Préliminaires}
+\chapter{Géometrie Projective}
+\section{Rudiments}
 Pour motiver les géométries projectives, on commence par considérer
 les droites passant par l'origine dans le plan. On peut représenter la
 plupart de ces lignes par des points sur l'axe $y=1$.
@@ -216,10 +245,11 @@ précédemment. La remarque sur le choix de l'axe de représentation
 s'étend ici comme tout plan ne passant pas par l'origine peut être
 utilisé. De plus, le plan irreprésentable sera celui (qui passe par
 l'origine) qui est parallèle au plan de représentation.
-
+\section{Projectivisation d'un espace vectoriel}
 Ce processus s'appelle la \textit{projectivisation d'un espace
   vectoriel}. Écrivons-le en langage d'algèbre linéaire.
 \begin{defn}[{\cite[27]{ff00}}]
+  \label{projectivization}
   Soit $V$ un espace vectoriel. Sur
   $V^{\unbutton} \defeq V \setminus \set{0}$, on définit une relation
   binaire comme suit : $x \sim y$ si et seulement si $x, y$ sont
@@ -241,7 +271,7 @@ La motivation ci-dessus peut donc être formulée comme suit :
   \proj(\R^3) &= \proj(\R^2 \times \R) \\
               &\cong \R^2 \discup \proj(\R^2) \\
               &= \R^2 \discup \proj(\R \times \R) \\
-              &\cong \R^2 \discup \R \discup \proj(\R)
+              &\cong \R^2 \discup \R \discup \proj(\R).
 \end{align*}
 Cela résume ce que l'on fait mathématiquement lorsque l'on fait des
 dessins en perspective : On prend un plan ($\R^2$), on choisit un
@@ -274,6 +304,7 @@ suivante n'est qu'une généralisation de ce processus.
 \end{prop}
 
 \begin{defn}[{\cite[26]{ff00}}]
+  \label{projective-geometry}
   Une \textit{géométrie projective} est un ensemble $G$ accompagné
   d'une relation ternaire $\ell \subseteq G \times G \times G$ telle
   que les axiomes suivants sont satisfaits :
@@ -302,6 +333,7 @@ probablement même connue de nombreux élèves du lycée, peut être
 déduite de l'énoncé du théorème sur cet important modèle de géométrie
 projective.
 \begin{prop}[{\cite[27]{ff00}}]
+  \label{example}
   Pour un espace vectoriel $V$, $\proj(V)$ est une géométrie
   projective si pour tout élément $X, Y, Z \in \proj(V)$ on définit :
   $\ell(X,Y,Z)$ si et seulement si $X, Y, Z$ ont des représentants
@@ -315,6 +347,49 @@ projectives.
   $\ell_2(ga,gb,gc)$. Si $G_1 = G_2$, alors on dit que $g$ est une
   \textit{collinéation}.
 \end{defn}
+Toutes les applications linéaires bijectives induisent une
+colinéation.
+\begin{exm}
+  Soit $T: \R^n \to \R^n$ une application linéaire
+  bijective. L'application $g: \proj(\R^n) \to \proj(\R^n)$,
+  $[x] \mapsto [T(x)]$ est une isomorphisme de géometries projectives.
+
+  L'application $g$ est bien définie: Soit $x, y \in \R^n$ tel que
+  $[x] = [y]$, i.e. $x = ky$ pour un $k \in \R$. On a:
+  \begin{align*}
+    [T(x)] &= [T(ky)] \quad x \ \text{définition} \\
+           &= [kT(y)] \quad T \ \text{linéaire} \\
+           &= [T(y)] \quad \text{\cref{projectivization}.}
+  \end{align*}
+  D'où, $g$ est bien définie.
+
+  Montrons que $g$ est injective. Soit $[x], [y] \in \proj(\R^n)$ tel
+  que $[T(x)] = [T(y)]$, i.e. $T(x) = kT(y)$ pour un $k \in \R$. Comme
+  $T$ est linéaire, $T(x) = T(ky)$. De plus, $x = ky$ car $T$ est
+  injective. Par la définition de la classe d'équivalence, on obtient
+  $[x] = [y]$. D'où $g$ est injective. Pour la surjectivité, prenons
+  $[x] \in \proj(\R^n)$. Comme $T$ est bijective, $T^{-1}$ existe, et
+  $[T^{-1}(x)] \in \proj(\R^n)$. Ainsi
+  $g([T^{-1}(x)]) = [T(T^{-1}(x))] = [x]$. D'où, $g$ est
+  surjective. On a montré que $g$ est bijective.
+
+  Vérifions la condition d'isomorphisme. Soit
+  $[x], [y], [z] \in \proj(\R^n)$. Supposons que
+  $\ell([x], [y], [z])$. On a des équivalences:
+  \begin{align*}
+    &\iff ax + by + cz = 0 \quad \text{\cref{example}} \\
+    &\iff T(ax + by + cz) = 0 \quad T \ \text{linéaire, injective} \\
+    &\iff aT(x) + bT(y) + cT(z) = 0 \quad T \ \text{linéaire} \\
+    &\iff \ell([T(x)], [T(y)], [T(z)]) \quad \text{\cref{example}}
+  \end{align*}
+\end{exm}
+% Mais les colinéations sont bien plus que des applications linéaires
+% bijectives.
+% \begin{exm}
+%   Soit $x_1, x_2$ deux réels; $x_2$ non-nul, et $d$ la ratio
+%   $x_1 / x_2$. L'application $g: \proj(\R^2) \to \proj(\R^2)$,
+%   $[(x_1, x_2)] \mapsto [(d^3, 1)]$ est une collineation.
+% \end{exm}
 % Pour arriver à définir les endomorphisms, on note les définitions de
 % fonction partielle, de noyau et domaine d'un fonction partielle, de
 % sous-espace d'un géométrie projective, de morphisme et d'hyperplan.
@@ -364,23 +439,99 @@ projectives.
 %   hyperplan $H \subseteq G$ tel que $\varphi x = x$ pour tout $x \in H
 %   \cap \domain \varphi$.
 % \end{defn}
-\section{Prochaines Étapes}
-Tout d'abord, la preuve en langage humain du théorème sera
-minutieusement assimilée. Pour cela, le livre "Modern Projective
-Geometry" \cite{ff00} de Claude-Alain Faure et Alfred Frölicher sera
-utilisé. Ce livre offre un cadre complet pour l'étude des géométries
-projectives. En particulier, le théorème de Desargue est compris en
-termes d'endomorphismes des géométries projectives et la preuve est
-effectuée en conséquence.
+\chapter{Formalisation}
+Commençons par transcrire la \cref{projective-geometry}. Il faut
+d'abord représenter d'une certaine manière les points, c'est-à-dire
+les éléments d'une géométrie projective, et la relation de
+colinéarité. Les points de la géométrie projective seront abstraits,
+c'est-à-dire un \textit{type}. La relation de colinéarité peut être
+représentée par une fonction qui prend trois points et renvoie vrai ou
+faux ; après tout, lorsque l'on dit qu'une relation $\ell$ est
+valable, ce que l'on fait, c'est prendre trois points et se demander
+s'ils sont colinéaires ou non.
+\begin{leancode}
+  class HasCollinear (P : Type) where
+  collinear : P → P → P → Prop
 
-Deuxièmement, l'existence des transcriptions de la machinerie requise,
-dans mathlib4 sera vérifiée. Quelques exemples seraient la définition
-de la projectivisation, des morphismes entre des espaces projectifs,
-etc.
+  export HasCollinear (collinear)
 
-Enfin, le schéma complet de la preuve sera transcrit. Cela nécessitera
-probablement une bonne maîtrise de la programmation en Lean 4, et il
-est prévu que cette exigence soit satisfaite en cours de route.
+  variable {Point : Type} [HasCollinear Point]
+\end{leancode}
+Ici, la flèche entre les types \texttt{P} peut être considérée comme
+la flèche entre le domaine et le codomaine dans les définitions de
+fonctions dans le langage habituel des mathématiques, c'est-à-dire le
+symbole \say{$\to$}.
+
+Comme le point reste abstrait, il a fallu dire à Lean que l'existence
+d'une interprétation de la colinéarité est assurée, c'est-à-dire que
+la colinéarité des points est quelque chose que l'on peut décider.
+Dans le code, cela est satisfait par la dernière ligne :
+\texttt{Point} est un type dont la colinéarité existe.
+
+Maintenant, on peut énoncer les axiomes $\text{L}_1$, $\text{L}_2$ et
+$\text{L}_3$ dans la \cref{projective-geometry}.
+\begin{leancode}
+  axiom l1 (a b : Point) : collinear a b a
+  axiom l2 (a b p q : Point) : collinear a p q → collinear b p q →
+  p ≠ q → collinear a b p
+  axiom l3 (a b c d p: Point) : collinear p a b → collinear p c d →
+  ∃ q : Point , collinear q a c ∧ collinear q b d
+\end{leancode}
+Il y a quelques points à noter ici. Tout d'abord, les flèches
+utilisées ici sont différentes de celles que nous avons utilisées
+ci-dessus, même si elles sont représentées par le même caractère
+typographique : Il s'agit de flèches d'implication, pour lesquelles
+nous utilisons normalement le symbole $\implies$. Deuxièmement, les
+conditions des axiomes qui contiennent des conjonctions logiques sont
+converties en implications sérielles. Expliquons cette équivalence
+logique. Supposons qu'on a une condition de la forme
+$(p \land q) \implies r$. On a des équivalences suivantes:
+\begin{align*}
+  &\iff \neg(p \land q) \lor r \\
+  &\iff (\neg p \lor \neg q) \lor r \\
+  &\iff \neg p \lor (\neg q \lor r) \\
+  &\iff p \implies (\neg q \lor r) \\
+  &\iff p \implies (q \implies r)
+\end{align*}
+Grâce à ces axiomes, nous pouvons prouver la proposition suivante.
+\begin{prop}
+  Toute relation ternaire $\ell$ qui satisfait les deux axiomes
+  $\text{L}_1$ et $\text{L}_2$ est symétrique.
+\end{prop}
+Dans la preuve, on va dériver la colinéarité de toutes les
+permutations possibles de trois points $a, b, c$ à partir de
+$\ell(a, b, c)$. Ici, on ne donnera que $\ell(a, c, b)$ et les cinq
+autres versions seront omises.
+\begin{leancode}
+  theorem acb (a b c : Point) : collinear a b c → collinear a c b := by
+  intro col -- Supposons que $\ell(a,b,c)$.
+  obtain rfl | hbc := eq_or_ne b c -- Si $b = c$, ...
+  exact col -- le résultat est trivial,
+  apply l2 a c b c -- sinon on applique $\text{L}_2$
+  exact col -- première condition de $\text{L}_2$
+  apply l1 c b -- deuxième condition de $\text{L}_2$
+  exact hbc -- troisième condition de $\text{L}_2$
+\end{leancode}
+Ce code est la transcription exacte de la phrase \say{Si $b = c$, le
+  résultat est trivial, et sinon on applique $\text{L}_2$ à
+  $\ell(a,b,c)$ et $\ell(c,b,c)$}.
+% \section{Prochaines Étapes}
+% Tout d'abord, la preuve en langage humain du théorème sera
+% minutieusement assimilée. Pour cela, le livre "Modern Projective
+% Geometry" \cite{ff00} de Claude-Alain Faure et Alfred Frölicher sera
+% utilisé. Ce livre offre un cadre complet pour l'étude des géométries
+% projectives. En particulier, le théorème de Desargue est compris en
+% termes d'endomorphismes des géométries projectives et la preuve est
+% effectuée en conséquence.
+
+% Deuxièmement, l'existence des transcriptions de la machinerie requise,
+% dans mathlib4 sera vérifiée. Quelques exemples seraient la définition
+% de la projectivisation, des morphismes entre des espaces projectifs,
+% etc.
+
+% Enfin, le schéma complet de la preuve sera transcrit. Cela nécessitera
+% probablement une bonne maîtrise de la programmation en Lean 4, et il
+% est prévu que cette exigence soit satisfaite en cours de route.
 \nocite{*}
 \printbibliography[title=Références,heading=subbibliography]
 \end{document}
