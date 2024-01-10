@@ -5,6 +5,8 @@
 \setlength{\pagew}{210mm}
 \setlength{\pageh}{297mm}
 
+\setlength{\headheight}{15pt}
+
 \setstocksize{\pageh}{\pagew}
 \settrimmedsize{\pageh}{\pagew}{*}
 \settypeblocksize{250mm}{150mm}{*}
@@ -71,6 +73,8 @@ backend=biber,
 style=alphabetic
 ]{biblatex}
 \addbibresource{main.bib}
+
+\usepackage{csquotes}
 
 \usepackage[
 unicode,
@@ -481,11 +485,12 @@ Il y a quelques points à noter ici. Tout d'abord, les flèches
 utilisées ici sont différentes de celles que nous avons utilisées
 ci-dessus, même si elles sont représentées par le même caractère
 typographique : Il s'agit de flèches d'implication, pour lesquelles
-nous utilisons normalement le symbole $\implies$. Deuxièmement, les
-conditions des axiomes qui contiennent des conjonctions logiques sont
-converties en implications sérielles. Expliquons cette équivalence
-logique. Supposons qu'on a une condition de la forme
-$(p \land q) \implies r$. On a des équivalences suivantes:
+nous utilisons normalement le symbole
+\say{$\Longrightarrow$}. Deuxièmement, les conditions des axiomes qui
+contiennent des conjonctions logiques sont converties en implications
+sérielles. Expliquons cette équivalence logique. Supposons qu'on a une
+condition de la forme $(p \land q) \implies r$. On a des équivalences
+suivantes:
 \begin{align*}
   &\iff \neg(p \land q) \lor r \\
   &\iff (\neg p \lor \neg q) \lor r \\
@@ -505,12 +510,12 @@ autres versions seront omises.
 \begin{leancode}
   theorem acb (a b c : Point) : collinear a b c → collinear a c b := by
   intro col -- Supposons que $\ell(a,b,c)$.
-  obtain rfl | hbc := eq_or_ne b c -- Si $b = c$, ...
+  obtain rfl | hbc := eq_or_ne b c -- Si $b = c$,
   exact col -- le résultat est trivial,
-  apply l2 a c b c -- sinon on applique $\text{L}_2$
+  apply l2 a c b c -- sinon on applique $\text{L}_2$;
   exact col -- première condition de $\text{L}_2$
   apply l1 c b -- deuxième condition de $\text{L}_2$
-  exact hbc -- troisième condition de $\text{L}_2$
+  exact hbc -- troisième condition de $\text{L}_2$.
 \end{leancode}
 Ce code est la transcription exacte de la phrase \say{Si $b = c$, le
   résultat est trivial, et sinon on applique $\text{L}_2$ à
