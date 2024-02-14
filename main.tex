@@ -5,7 +5,7 @@
 \setlength{\pagew}{210mm}
 \setlength{\pageh}{297mm}
 
-\setlength{\headheight}{15pt}
+\setlength{\headheight}{16pt}
 
 \setstocksize{\pageh}{\pagew}
 \settrimmedsize{\pageh}{\pagew}{*}
@@ -30,12 +30,14 @@
 \usepackage{newpxmath}
 
 \usepackage[no-math]{fontspec}
-\setmainfont{TeX Gyre Pagella}
-\setmonofont[Scale=MatchLowercase]{JuliaMono}
+\setmainfont{ETbb}
+\setmonofont[Scale=MatchLowercase]{JetBrains Mono}
 
-\usepackage{mathspec} 
-\setmathrm{TeX Gyre Pagella}
-\setmathfont(Digits,Latin){TeX Gyre Pagella}
+\usepackage{microtype}
+
+\usepackage{mathspec}
+\setmathrm{ETbb}
+\setmathfont(Digits,Latin){ETbb}
 
 \makeatletter % undo the wrong changes made by mathspec
 \let\RequirePackage\original@RequirePackage
@@ -48,7 +50,7 @@
 
 \newmintinline[lean]{lean4.py:Lean4Lexer -x}{bgcolor=white}
 \newminted[leancode]{lean4.py:Lean4Lexer -x}{fontsize=\footnotesize}
-\usemintedstyle{tango} 
+\usemintedstyle{tango}
 
 \usepackage{float}
 \usepackage{enumitem}
@@ -161,6 +163,7 @@ colorlinks
 \end{center}
 \clearpage
 \tableofcontents
+\raggedright
 \pagenumbering{arabic}
 \chapter{Introduction}
 \section{Motivation}
@@ -257,7 +260,7 @@ Ce processus s'appelle la \textit{projectivisation d'un espace
   Soit $V$ un espace vectoriel. Sur
   $V^{\unbutton} \defeq V \setminus \set{0}$, on définit une relation
   binaire comme suit : $x \sim y$ si et seulement si $x, y$ sont
-  linéairement indépendants. Comme ceci est une relation
+  linéairement dépendants. Comme ceci est une relation
   d'équivalence, l'ensemble quotient
   $\proj(V) \defeq V^{\unbutton} / {\sim}$ est bien défini. $\proj(V)$
   est appelée la \textit{projectivisation de l'espace vectoriel $V$}.
