@@ -30,14 +30,14 @@
 \usepackage{newpxmath}
 
 \usepackage[no-math]{fontspec}
-\setmainfont{ETbb}
+\setmainfont{EB Garamond}
 \setmonofont[Scale=MatchLowercase]{JetBrains Mono}
 
 \usepackage{microtype}
 
 \usepackage{mathspec}
-\setmathrm{ETbb}
-\setmathfont(Digits,Latin){ETbb}
+\setmathrm{EB Garamond}
+\setmathfont(Digits,Latin){EB Garamond}
 
 \makeatletter % undo the wrong changes made by mathspec
 \let\RequirePackage\original@RequirePackage
@@ -48,8 +48,8 @@
 \usepackage{svg}
 \usepackage{minted}
 
-\newmintinline[lean]{lean4.py:Lean4Lexer -x}{bgcolor=white}
-\newminted[leancode]{lean4.py:Lean4Lexer -x}{fontsize=\footnotesize}
+\newmintinline[lean]{lean}{bgcolor=white}
+\newminted[leancode]{lean}{}
 \usemintedstyle{tango}
 
 \usepackage{float}
@@ -98,7 +98,7 @@ colorlinks
 \newtheorem{exm}{Exemple}
 
 % Unbutton the vector space from its origin.
-\newcommand{\unbutton}[1][.6]{\mathbin{\vcenter{\hbox{\scalebox{#1}{$\bullet$}}}}}
+\newcommand{\unbutton}[1][.6]{\mathbin{\hspace{1pt}\vcenter{\hbox{\scalebox{#1}{$\bullet$}}}}}
 
 % Definitional equal.
 \newcommand{\defeq}{\vcentcolon=}
@@ -166,14 +166,14 @@ colorlinks
 \raggedright
 \pagenumbering{arabic}
 \chapter{Introduction}
-\section{Motivation}
+\paragraph{Motivation}
 Lean 4 est un assistant de preuve. La transcription d'une preuve en
 langage humain dans un assistant de preuve est appelée
 \textit{formalisation}. Lean 4 dispose d'une grande bibliothèque de
 preuves, y compris de nombreuses preuves du niveau de licence, appelée
 mathlib4. Dans cette bibliothèque, il y a d'importants théorèmes
 manquants, et le théorème de Desargue est l'un d'entre eux.
-\section{Objectifs du Projet}
+\paragraph{Objectifs du Projet}
 Les deux aspects principaux de ce projet sont l'apprentissage des
 rudiments de la théorie des géométries projectives, et de la
 programmation en Lean 4. Avec ces deux aspects, le but ultime est de
