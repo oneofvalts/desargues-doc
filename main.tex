@@ -27,22 +27,28 @@
 \usepackage{amsmath}
 \usepackage{amsthm}
 \usepackage{physics}
-\usepackage{newpxmath}
+% \usepackage{newpxmath}
 
-\usepackage[no-math]{fontspec}
+\usepackage[math-style=ISO, bold-style=ISO]{unicode-math}
 \setmainfont{EB Garamond}
+\setmathfont{Garamond-Math.otf}[StylisticSet={7,9}]
 \setmonofont[Scale=MatchLowercase]{JetBrains Mono}
-
 \usepackage{microtype}
 
-\usepackage{mathspec}
-\setmathrm{EB Garamond}
-\setmathfont(Digits,Latin){EB Garamond}
-
-\makeatletter % undo the wrong changes made by mathspec
-\let\RequirePackage\original@RequirePackage
-\let\usepackage\RequirePackage
-\makeatother
+% \usepackage[no-math]{fontspec}
+% \setmainfont{EB Garamond}
+% \setmonofont[Scale=MatchLowercase]{JetBrains Mono}
+%
+% \usepackage{microtype}
+%
+% \usepackage{mathspec}
+% \setmathrm{EB Garamond}
+% \setmathfont(Digits,Greek,Latin){EB Garamond}
+%
+% \makeatletter % undo the wrong changes made by mathspec
+% \let\RequirePackage\original@RequirePackage
+% \let\usepackage\RequirePackage
+% \makeatother
 
 \usepackage{graphicx}
 \usepackage{svg}
@@ -98,7 +104,7 @@ colorlinks
 \newtheorem{exm}{Exemple}
 
 % Unbutton the vector space from its origin.
-\newcommand{\unbutton}[1][.6]{\mathbin{\hspace{1pt}\vcenter{\hbox{\scalebox{#1}{$\bullet$}}}}}
+\newcommand{\unbutton}[1][.7]{\mathbin{\hspace{1pt}\vcenter{\hbox{\scalebox{#1}{$\bullet$}}}}}
 
 % Definitional equal.
 \newcommand{\defeq}{\vcentcolon=}
@@ -108,7 +114,7 @@ colorlinks
 \newcommand{\setcomp}[2]{\set{ #1 \,|\, #2 }}
 
 % Projectivization.
-\newcommand{\proj}{\boldsymbol{\mathscr{P}}}
+\newcommand{\proj}{\symbfscr{P}}
 
 % Disjoint union.
 \newcommand{\discup}{\mathop{\dot{\cup}}}
@@ -300,14 +306,14 @@ suivante n'est qu'une généralisation de ce processus.
   % une géométrie projective et $s$ un isomorphisme. De plus, on a:
   % \NumTabs{2}
   % \begin{enumerate}[align=left]
-  % \item $\overline{\ell}(x, y, z)$ \tabto{3cm} ssi $x-z$ et $y-z$
-  %   sont linéairement dépendants dans $V$,
-  % \item $\overline{\ell}(x, y, [z])$ \tabto{3cm} ssi $x-y = \mu z$
-  %   pour un $\mu \in K$
-  % \item $\overline{\ell}(x, [y], [z])$ \tabto{3cm} ssi $[y] = [z]$,
-  % \item $\overline{\ell}([x], [y], [z])$ \tabto{3cm} ssi
-  %   $\ell([x], [y], [z])$.
-  % \end{enumerate}
+            %       \item $\overline{\ell}(x, y, z)$ \tabto{3cm} ssi $x-z$ et $y-z$
+            %             sont linéairement dépendants dans $V$,
+            %       \item $\overline{\ell}(x, y, [z])$ \tabto{3cm} ssi $x-y = \mu z$
+            %             pour un $\mu \in K$
+            %       \item $\overline{\ell}(x, [y], [z])$ \tabto{3cm} ssi $[y] = [z]$,
+            %       \item $\overline{\ell}([x], [y], [z])$ \tabto{3cm} ssi
+            %             $\ell([x], [y], [z])$.
+            %     \end{enumerate}
 \end{prop}
 
 \begin{defn}[{\cite[26]{ff00}}]
@@ -316,11 +322,11 @@ suivante n'est qu'une généralisation de ce processus.
   d'une relation ternaire $\ell \subseteq G \times G \times G$ telle
   que les axiomes suivants sont satisfaits :
   \begin{itemize}[align=left]
-  \item[($\text{L}_1$)] $\ell(a,b,a)$ pour tout $a, b \in G$.
-  \item[($\text{L}_2$)] $\ell(a,p,q)$, $\ell(b,p,q)$ et $p \neq q$
-    $\implies$ $\ell(a,b,p)$.
-  \item[($\text{L}_3$)] $\ell(p,a,b)$ et $\ell(p,c,d)$ $\implies$
-    $\ell(q,a,c)$ et $\ell(q,b,d)$ pour un $q \in G$.
+    \item[($\text{L}_1$)] $\ell(a,b,a)$ pour tout $a, b \in G$.
+    \item[($\text{L}_2$)] $\ell(a,p,q)$, $\ell(b,p,q)$ et $p \neq q$
+          $\implies$ $\ell(a,b,p)$.
+    \item[($\text{L}_3$)] $\ell(p,a,b)$ et $\ell(p,c,d)$ $\implies$
+          $\ell(q,a,c)$ et $\ell(q,b,d)$ pour un $q \in G$.
   \end{itemize}
   Les éléments de $G$ sont appelés les \textit{points} de la
   géométrie. Et trois points $a, b, c$ sont dits \textit{colinéaires}
@@ -423,29 +429,29 @@ colinéation.
 %   géométrie projective $G_2$ est une fonction partielle $g: G_1
 %   \partialto G_2$ satisfaisant les axiomes suivant :
 %   \begin{itemize}[align=left]
-%   \item[($\text{M}_1$)] $\kernel g$ est un sous-espace de $G_1$,
-%   \item[($\text{M}_2$)] si $a, b \not\in N$, $c \in N$ et $a \in b
-%     \star c$, alors $ga = gb$,
-%   \item[($\text{M}_3$)] si $a, b, c \not\in N$ et $a \in b \star c$,
-%     alors $ga \in gb \star gc$.
-%   \end{itemize}
-% \end{defn}
-% \begin{defn}
-%   Un \textit{hyperplan} d'une géométrie projective $G$ est un
-%   sous-espace $H$ de $G$ qui est maximal parmi les sous-espaces
-%   stricts de $G$.
-% \end{defn}
-% Nous définissons enfin les endomorphismes, ainsi que le centre et
-% l'axe d'un endomorphisme.
-% \begin{defn}
-%   Un \textit{endomorphisme} d'un géométrie projective $G$ est un
-%   morphisme $\varphi: G \partialto G$. Un \textit{centre} d'un
-%   endomorphisme $\varphi: G \partialto G$ est un point $z \in G$ tel
-%   que $\varphi x \in x \star z$ pour tout $x \in \domain \varphi$. Un
-%   \textit{axe} d'un endomorphisme $\varphi: G \partialto G$ est un
-%   hyperplan $H \subseteq G$ tel que $\varphi x = x$ pour tout $x \in H
-%   \cap \domain \varphi$.
-% \end{defn}
+            %       \item[($\text{M}_1$)] $\kernel g$ est un sous-espace de $G_1$,
+            %       \item[($\text{M}_2$)] si $a, b \not\in N$, $c \in N$ et $a \in b
+            %             \star c$, alors $ga = gb$,
+            %       \item[($\text{M}_3$)] si $a, b, c \not\in N$ et $a \in b \star c$,
+            %             alors $ga \in gb \star gc$.
+            %     \end{itemize}
+            %             \end{defn}
+            %             \begin{defn}
+            %             Un \textit{hyperplan} d'une géométrie projective $G$ est un
+            %             sous-espace $H$ de $G$ qui est maximal parmi les sous-espaces
+            %             stricts de $G$.
+            %             \end{defn}
+            %             Nous définissons enfin les endomorphismes, ainsi que le centre et
+            %             l'axe d'un endomorphisme.
+            %             \begin{defn}
+            %             Un \textit{endomorphisme} d'un géométrie projective $G$ est un
+            %             morphisme $\varphi: G \partialto G$. Un \textit{centre} d'un
+            %             endomorphisme $\varphi: G \partialto G$ est un point $z \in G$ tel
+            %             que $\varphi x \in x \star z$ pour tout $x \in \domain \varphi$. Un
+            %             \textit{axe} d'un endomorphisme $\varphi: G \partialto G$ est un
+            %             hyperplan $H \subseteq G$ tel que $\varphi x = x$ pour tout $x \in H
+            %             \cap \domain \varphi$.
+            %             \end{defn}
 \chapter{Formalisation}
 Commençons par transcrire la \cref{projective-geometry}. Il faut
 d'abord représenter d'une certaine manière les points, c'est-à-dire
@@ -523,23 +529,23 @@ autres versions seront omises.
 Ce code est la transcription exacte de la phrase \say{Si $b = c$, le
   résultat est trivial, et sinon on applique $\text{L}_2$ à
   $\ell(a,b,c)$ et $\ell(c,b,c)$}.
-% \section{Prochaines Étapes}
-% Tout d'abord, la preuve en langage humain du théorème sera
-% minutieusement assimilée. Pour cela, le livre "Modern Projective
-% Geometry" \cite{ff00} de Claude-Alain Faure et Alfred Frölicher sera
-% utilisé. Ce livre offre un cadre complet pour l'étude des géométries
-% projectives. En particulier, le théorème de Desargue est compris en
-% termes d'endomorphismes des géométries projectives et la preuve est
-% effectuée en conséquence.
+            %             \section{Prochaines Étapes}
+            %             Tout d'abord, la preuve en langage humain du théorème sera
+            %             minutieusement assimilée. Pour cela, le livre "Modern Projective
+            %             Geometry" \cite{ff00} de Claude-Alain Faure et Alfred Frölicher sera
+            %             utilisé. Ce livre offre un cadre complet pour l'étude des géométries
+            %             projectives. En particulier, le théorème de Desargue est compris en
+            %             termes d'endomorphismes des géométries projectives et la preuve est
+            %             effectuée en conséquence.
 
-% Deuxièmement, l'existence des transcriptions de la machinerie requise,
-% dans mathlib4 sera vérifiée. Quelques exemples seraient la définition
-% de la projectivisation, des morphismes entre des espaces projectifs,
-% etc.
+            %             Deuxièmement, l'existence des transcriptions de la machinerie requise,
+            %             dans mathlib4 sera vérifiée. Quelques exemples seraient la définition
+            %             de la projectivisation, des morphismes entre des espaces projectifs,
+            %             etc.
 
-% Enfin, le schéma complet de la preuve sera transcrit. Cela nécessitera
-% probablement une bonne maîtrise de la programmation en Lean 4, et il
-% est prévu que cette exigence soit satisfaite en cours de route.
+            %             Enfin, le schéma complet de la preuve sera transcrit. Cela nécessitera
+            %             probablement une bonne maîtrise de la programmation en Lean 4, et il
+            %             est prévu que cette exigence soit satisfaite en cours de route.
 \nocite{*}
 \printbibliography[title=Références,heading=subbibliography]
 \end{document}
