@@ -1,4 +1,4 @@
-# Bitirme Projesi
+# Memoir of my Graduation Project
 
-Bu depo "Desargue Teoremi'nin Lean 4 ile Formalizasyonu" bitirme
-projesinin raporu içindir.
+The repository contains the LaTeX source code of the memoir of my
+graduation project: "Formalization of Desargues’s Theorem in Lean".
