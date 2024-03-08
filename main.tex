@@ -178,12 +178,12 @@ langage humain dans un assistant de preuve est appelée
 \textit{formalisation}. Lean 4 dispose d'une grande bibliothèque de
 preuves, y compris de nombreuses preuves du niveau de licence, appelée
 mathlib4. Dans cette bibliothèque, il y a d'importants théorèmes
-manquants, et le théorème de Desargue est l'un d'entre eux.
+manquants, et le théorème de Desargues est l'un d'entre eux.
 \paragraph{Objectifs du Projet}
 Les deux aspects principaux de ce projet sont l'apprentissage des
 rudiments de la théorie des géométries projectives, et de la
 programmation en Lean 4. Avec ces deux aspects, le but ultime est de
-formaliser le théorème de Desargue dans Lean 4.
+formaliser le théorème de Desargues dans Lean 4.
 \chapter{Géometrie Projective}
 \section{Rudiments}
 Pour motiver les géométries projectives, on commence par considérer
@@ -306,14 +306,14 @@ suivante n'est qu'une généralisation de ce processus.
   % une géométrie projective et $s$ un isomorphisme. De plus, on a:
   % \NumTabs{2}
   % \begin{enumerate}[align=left]
-            %       \item $\overline{\ell}(x, y, z)$ \tabto{3cm} ssi $x-z$ et $y-z$
-            %             sont linéairement dépendants dans $V$,
-            %       \item $\overline{\ell}(x, y, [z])$ \tabto{3cm} ssi $x-y = \mu z$
-            %             pour un $\mu \in K$
-            %       \item $\overline{\ell}(x, [y], [z])$ \tabto{3cm} ssi $[y] = [z]$,
-            %       \item $\overline{\ell}([x], [y], [z])$ \tabto{3cm} ssi
-            %             $\ell([x], [y], [z])$.
-            %     \end{enumerate}
+  %   \item $\overline{\ell}(x, y, z)$ \tabto{3cm} ssi $x-z$ et $y-z$
+  %   sont linéairement dépendants dans $V$,
+  %   \item $\overline{\ell}(x, y, [z])$ \tabto{3cm} ssi $x-y = \mu z$
+  %   pour un $\mu \in K$
+  %   \item $\overline{\ell}(x, [y], [z])$ \tabto{3cm} ssi $[y] = [z]$,
+  %   \item $\overline{\ell}([x], [y], [z])$ \tabto{3cm} ssi
+  %   $\ell([x], [y], [z])$.
+  % \end{enumerate}
 \end{prop}
 
 \begin{defn}[{\cite[26]{ff00}}]
@@ -429,29 +429,29 @@ colinéation.
 %   géométrie projective $G_2$ est une fonction partielle $g: G_1
 %   \partialto G_2$ satisfaisant les axiomes suivant :
 %   \begin{itemize}[align=left]
-            %       \item[($\text{M}_1$)] $\kernel g$ est un sous-espace de $G_1$,
-            %       \item[($\text{M}_2$)] si $a, b \not\in N$, $c \in N$ et $a \in b
-            %             \star c$, alors $ga = gb$,
-            %       \item[($\text{M}_3$)] si $a, b, c \not\in N$ et $a \in b \star c$,
-            %             alors $ga \in gb \star gc$.
-            %     \end{itemize}
-            %             \end{defn}
-            %             \begin{defn}
-            %             Un \textit{hyperplan} d'une géométrie projective $G$ est un
-            %             sous-espace $H$ de $G$ qui est maximal parmi les sous-espaces
-            %             stricts de $G$.
-            %             \end{defn}
-            %             Nous définissons enfin les endomorphismes, ainsi que le centre et
-            %             l'axe d'un endomorphisme.
-            %             \begin{defn}
-            %             Un \textit{endomorphisme} d'un géométrie projective $G$ est un
-            %             morphisme $\varphi: G \partialto G$. Un \textit{centre} d'un
-            %             endomorphisme $\varphi: G \partialto G$ est un point $z \in G$ tel
-            %             que $\varphi x \in x \star z$ pour tout $x \in \domain \varphi$. Un
-            %             \textit{axe} d'un endomorphisme $\varphi: G \partialto G$ est un
-            %             hyperplan $H \subseteq G$ tel que $\varphi x = x$ pour tout $x \in H
-            %             \cap \domain \varphi$.
-            %             \end{defn}
+%     \item[($\text{M}_1$)] $\kernel g$ est un sous-espace de $G_1$,
+%     \item[($\text{M}_2$)] si $a, b \not\in N$, $c \in N$ et $a \in b
+%     \star c$, alors $ga = gb$,
+%     \item[($\text{M}_3$)] si $a, b, c \not\in N$ et $a \in b \star c$,
+%     alors $ga \in gb \star gc$.
+%   \end{itemize}
+% \end{defn}
+% \begin{defn}
+%   Un \textit{hyperplan} d'une géométrie projective $G$ est un
+%   sous-espace $H$ de $G$ qui est maximal parmi les sous-espaces
+%   stricts de $G$.
+% \end{defn}
+% Nous définissons enfin les endomorphismes, ainsi que le centre et
+% l'axe d'un endomorphisme.
+% \begin{defn}
+%   Un \textit{endomorphisme} d'un géométrie projective $G$ est un
+%   morphisme $\varphi: G \partialto G$. Un \textit{centre} d'un
+%   endomorphisme $\varphi: G \partialto G$ est un point $z \in G$ tel
+%   que $\varphi x \in x \star z$ pour tout $x \in \domain \varphi$. Un
+%   \textit{axe} d'un endomorphisme $\varphi: G \partialto G$ est un
+%   hyperplan $H \subseteq G$ tel que $\varphi x = x$ pour tout $x \in H
+%   \cap \domain \varphi$.
+% \end{defn}
 \chapter{Formalisation}
 Commençons par transcrire la \cref{projective-geometry}. Il faut
 d'abord représenter d'une certaine manière les points, c'est-à-dire
@@ -463,12 +463,12 @@ faux ; après tout, lorsque l'on dit qu'une relation $\ell$ est
 valable, ce que l'on fait, c'est prendre trois points et se demander
 s'ils sont colinéaires ou non.
 \begin{leancode}
-  class HasCollinear (P : Type) where
-  collinear : P → P → P → Prop
+        class HasCollinear (P : Type) where
+        collinear : P → P → P → Prop
 
-  export HasCollinear (collinear)
+        export HasCollinear (collinear)
 
-  variable {Point : Type} [HasCollinear Point]
+        variable {Point : Type} [HasCollinear Point]
 \end{leancode}
 Ici, la flèche entre les types \texttt{P} peut être considérée comme
 la flèche entre le domaine et le codomaine dans les définitions de
@@ -484,11 +484,11 @@ Dans le code, cela est satisfait par la dernière ligne :
 Maintenant, on peut énoncer les axiomes $\text{L}_1$, $\text{L}_2$ et
 $\text{L}_3$ dans la \cref{projective-geometry}.
 \begin{leancode}
-  axiom l1 (a b : Point) : collinear a b a
-  axiom l2 (a b p q : Point) : collinear a p q → collinear b p q →
-  p ≠ q → collinear a b p
-  axiom l3 (a b c d p: Point) : collinear p a b → collinear p c d →
-  ∃ q : Point , collinear q a c ∧ collinear q b d
+        axiom l1 (a b : Point) : collinear a b a
+        axiom l2 (a b p q : Point) : collinear a p q → collinear b p q →
+        p ≠ q → collinear a b p
+        axiom l3 (a b c d p: Point) : collinear p a b → collinear p c d →
+        ∃ q : Point , collinear q a c ∧ collinear q b d
 \end{leancode}
 Il y a quelques points à noter ici. Tout d'abord, les flèches
 utilisées ici sont différentes de celles que nous avons utilisées
@@ -517,35 +517,36 @@ permutations possibles de trois points $a, b, c$ à partir de
 $\ell(a, b, c)$. Ici, on ne donnera que $\ell(a, c, b)$ et les cinq
 autres versions seront omises.
 \begin{leancode}
-  theorem acb (a b c : Point) : collinear a b c → collinear a c b := by
-  intro col -- Supposons que $\ell(a,b,c)$.
-  obtain rfl | hbc := eq_or_ne b c -- Si $b = c$,
-  exact col -- le résultat est trivial,
-  apply l2 a c b c -- sinon on applique $\text{L}_2$;
-  exact col -- première condition de $\text{L}_2$
-  apply l1 c b -- deuxième condition de $\text{L}_2$
-  exact hbc -- troisième condition de $\text{L}_2$.
+        theorem acb (a b c : Point) : collinear a b c → collinear a c b := by
+        intro col -- Supposons que $\ell(a,b,c)$.
+        obtain rfl | hbc := eq_or_ne b c -- Si $b = c$,
+        exact col -- le résultat est trivial,
+        apply l2 a c b c -- sinon on applique $\text{L}_2$;
+        exact col -- première condition de $\text{L}_2$
+        apply l1 c b -- deuxième condition de $\text{L}_2$
+        exact hbc -- troisième condition de $\text{L}_2$.
 \end{leancode}
 Ce code est la transcription exacte de la phrase \say{Si $b = c$, le
   résultat est trivial, et sinon on applique $\text{L}_2$ à
   $\ell(a,b,c)$ et $\ell(c,b,c)$}.
-            %             \section{Prochaines Étapes}
-            %             Tout d'abord, la preuve en langage humain du théorème sera
-            %             minutieusement assimilée. Pour cela, le livre "Modern Projective
-            %             Geometry" \cite{ff00} de Claude-Alain Faure et Alfred Frölicher sera
-            %             utilisé. Ce livre offre un cadre complet pour l'étude des géométries
-            %             projectives. En particulier, le théorème de Desargue est compris en
-            %             termes d'endomorphismes des géométries projectives et la preuve est
-            %             effectuée en conséquence.
+% \section{Prochaines Étapes}
+% Tout d'abord, la preuve en langage humain du théorème sera
+% minutieusement assimilée. Pour cela, le livre "Modern Projective
+% Geometry" \cite{ff00} de Claude-Alain Faure et Alfred Frölicher sera
+% utilisé. Ce livre offre un cadre complet pour l'étude des géométries
+% projectives. En particulier, le théorème de
+% Desargues est compris en
+% termes d'endomorphismes des géométries projectives et la preuve est
+% effectuée en conséquence.
 
-            %             Deuxièmement, l'existence des transcriptions de la machinerie requise,
-            %             dans mathlib4 sera vérifiée. Quelques exemples seraient la définition
-            %             de la projectivisation, des morphismes entre des espaces projectifs,
-            %             etc.
+% Deuxièmement, l'existence des transcriptions de la machinerie requise,
+% dans mathlib4 sera vérifiée. Quelques exemples seraient la définition
+% de la projectivisation, des morphismes entre des espaces projectifs,
+% etc.
 
-            %             Enfin, le schéma complet de la preuve sera transcrit. Cela nécessitera
-            %             probablement une bonne maîtrise de la programmation en Lean 4, et il
-            %             est prévu que cette exigence soit satisfaite en cours de route.
+% Enfin, le schéma complet de la preuve sera transcrit. Cela nécessitera
+% probablement une bonne maîtrise de la programmation en Lean 4, et il
+% est prévu que cette exigence soit satisfaite en cours de route.
 \nocite{*}
 \printbibliography[title=Références,heading=subbibliography]
 \end{document}
