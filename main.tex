@@ -51,7 +51,7 @@
 % \makeatother
 
 \usepackage{graphicx}
-% \usepackage{svg}
+\usepackage{svg}
 \usepackage{minted}
 
 \newmintinline[lean]{lean}{bgcolor=white}
@@ -61,6 +61,12 @@
 \usepackage{float}
 \usepackage{enumitem}
 \usepackage{tabto}
+
+\makeatletter
+\newcommand\iraggedright{%
+  \let\\\@centercr\@rightskip\@flushglue \rightskip\@rightskip
+  \leftskip\z@skip}
+\makeatother
 
 \usepackage{lipsum}
 \usepackage{dirtytalk}
@@ -79,9 +85,9 @@
 \usetikzlibrary{external}
 \tikzexternalize[prefix=figures/]
 
-\usepackage{comment}
-\excludecomment{figure}
-\let\endfigure\relax
+% \usepackage{comment}
+% \excludecomment{figure}
+% \let\endfigure\relax
 
 \usepackage[
 backend=biber,
@@ -147,7 +153,7 @@ colorlinks
   % \setlength{\fboxsep}{0pt}%
   % \fbox{\includesvg[width=3cm]{logo.svg}}%
   % }
-  %   \includesvg[width=2.5cm]{logo.svg}
+  \includesvg[width=2.5cm]{logo.svg}
 
   \vspace{1cm}
   \large{\textbf{PROJET DE FIN D'ÉTUDES}}
@@ -161,7 +167,7 @@ colorlinks
   {\small Spécialité : \textbf{Mathématiques}}
 
   \vspace{2.25cm}
-  {\Large\textbf{Formalisation du théorème de Desargues en Lean 4}}
+  {\Large\textbf{Formalisation du théorème de Desargues en Lean}}
 
   Rapport 2
 
@@ -176,21 +182,21 @@ colorlinks
 \end{center}
 \clearpage
 \tableofcontents
-\raggedright
+\iraggedright
 \pagenumbering{arabic}
 \chapter{Introduction}
 \paragraph{Motivation}
-Lean 4 est un assistant de preuve. La transcription d'une preuve en
+Lean est un assistant de preuve. La transcription d'une preuve en
 langage humain dans un assistant de preuve est appelée
-\textit{formalisation}. Lean 4 dispose d'une grande bibliothèque de
+\textit{formalisation}. Lean dispose d'une grande bibliothèque de
 preuves, y compris de nombreuses preuves du niveau de licence, appelée
 mathlib4. Dans cette bibliothèque, il y a d'importants théorèmes
 manquants, et le théorème de Desargues est l'un d'entre eux.
 \paragraph{Objectifs du Projet}
 Les deux aspects principaux de ce projet sont l'apprentissage des
 rudiments de la théorie des géométries projectives, et de la
-programmation en Lean 4. Avec ces deux aspects, le but ultime est de
-formaliser le théorème de Desargues dans Lean 4.
+programmation en Lean. Avec ces deux aspects, le but ultime est de
+formaliser le théorème de Desargues dans Lean.
 \chapter{Explications sur les résultats réquis de la géométrie projective}
 \section{Première rencontre}
 Pour motiver les géométries projectives, on commence par considérer
@@ -345,13 +351,13 @@ suivante n'est qu'une généralisation de ce processus.
 % concision. La définition de morphisme sera donnée à l'aide de ce
 % système.
 
-Notons l'exemple le plus important pour une géométrie projective. Lors
-d'une discussion sur la chaîne de Zulip de Lean 4, Joseph Myers a
-conseillé d'énoncer le théorème sur cet exemple, mais pas sur la
-définition abstraite d'une géométrie projective. De plus, il est noté
-que la version du théorème en géométrie euclidienne, qui est
-probablement même connue de nombreux élèves du lycée, peut être
-déduite de l'énoncé du théorème sur cet important modèle de géométrie
+Notons l'exemple le plus important pour une géométrie projective. Lors d'une
+\href{https://leanprover.zulipchat.com/#narrow/stream/113489-new-members/topic/Missing.20theorems.20list/near/397885401}{discussion}
+sur la chaîne de Zulip de Lean, Joseph Myers a conseillé d'énoncer le théorème
+sur cet exemple, mais pas sur la définition abstraite d'une géométrie
+projective. De plus, il est noté que la version du théorème en géométrie
+euclidienne, qui est probablement même connue de nombreux élèves du lycée, peut
+être déduite de l'énoncé du théorème sur cet important modèle de géométrie
 projective.
 \begin{prop}[{\cite[27]{ff00}}]
   \label{example}
@@ -446,7 +452,7 @@ application linéaire.
   Sinon on a $x_{1} / x_{1}' = x_{2} / x_{2}'$ et donc:
   \begin{align*}
     [(x_{1}, x_{2})] &= [(\frac{x_{1}' x_{2}}{x_{2}'}, \frac{x_{1} x_{2}'}{x_{1}'})] \\
-                     &= [(x_{1}', x_{2}')]
+                     &= [(x_{1}', x_{2}')] \quad \text{classe d'équivalence définition}
   \end{align*}
   Enfin, on vérifie la reste de l'image. Soit $x_{3}$ un réél. Il est clair que
   $[((x_{1} / x_{2})^{3}, 1)] \neq [(x_{3}, 0)]$. D'où, $g$ est injective. Pour
@@ -462,6 +468,18 @@ application linéaire.
 
   $g$ est automatiquement une collinéation car trois vecteurs quelconques sont
   toujours linéairement dépendants dans $\R^2$.
+
+  Montrons maintenant que $g$ n'est pas induite par une application linéaire.
+  Supposons par l'absurde que $g$ est induite par l'application linéaire
+  $T : \R^{2} \to \R^{2}$. Alors on a $T(1, 0) = (k_{1}, 0)$ et
+  $T(0, 1) = (0, k_{2})$ pour $k_{1}, k_{2}$ non-nuls. Soit $x_{1}$ un réél.
+  D'un part, on a $T(x, 1) = k_{x} (x^{3}, 1)$ pour un $k_{x}$ non-nul, et
+  d'autre part, on a $T(x, 1) = x T(1, 0) + T(0, 1)$. Donc, on a:
+  $$
+  k_{x} (x^{3}, 1) = x (k_{1}, 0) + (0, k_{2})
+  $$
+  Par conséquent, on obtient l'égalité des polynômes $k_{2}x^{3} = k_{1}x$ qui
+  entraîne $k_{1} = k_{2} = 0$. Ceci oblige $T = 0$ qui est absurde.
 \end{exm}
 % Pour arriver à définir les endomorphisms, on note les définitions de
 % fonction partielle, de noyau et domaine d'un fonction partielle, de
@@ -513,20 +531,19 @@ application linéaire.
 %   \cap \domain \varphi$.
 % \end{defn}
 \chapter{Formalisation}
-Commençons par transcrire la \cref{projective-geometry}. Il faut
-d'abord représenter d'une certaine manière les points, c'est-à-dire
-les éléments d'une géométrie projective, et la relation de
-colinéarité. Les points de la géométrie projective seront abstraits,
-c'est-à-dire un \textit{type}. La relation de colinéarité peut être
-représentée par une fonction qui prend trois points et renvoie vrai ou
-faux ; après tout, lorsque l'on dit qu'une relation $\ell$ est
-valable, ce que l'on fait, c'est prendre trois points et se demander
-s'ils sont colinéaires ou non.
+Commençons par transcrire la définition de la géométrie projective
+(\cref{projective-geometry}). Il faut d'abord représenter d'une certaine manière
+les points, c'est-à-dire les éléments d'une géométrie projective, et la relation
+de colinéarité. Les points de la géométrie projective seront abstraits,
+c'est-à-dire un \textit{type}. La relation de colinéarité peut être représentée
+par une fonction qui prend trois points et renvoie vrai ou faux ; après tout,
+lorsque l'on dit qu'une relation $\ell$ est valable, ce que l'on fait, c'est
+prendre trois points et se demander s'ils sont colinéaires ou non.
 \begin{leancode}
 class HasCollinear (P : Type) where
-collinear : P → P → P → Prop
+ell : P → P → P → Prop
 
-export HasCollinear (collinear)
+export HasCollinear (ell)
 
 variable {Point : Type} [HasCollinear Point]
 \end{leancode}
@@ -544,11 +561,10 @@ Dans le code, cela est satisfait par la dernière ligne :
 Maintenant, on peut énoncer les axiomes $\text{L}_1$, $\text{L}_2$ et
 $\text{L}_3$ dans la \cref{projective-geometry}.
 \begin{leancode}
-axiom l1 (a b : Point) : collinear a b a
-axiom l2 (a b p q : Point) : collinear a p q → collinear b p q →
-p ≠ q → collinear a b p
-axiom l3 (a b c d p: Point) : collinear p a b → collinear p c d →
-∃ q : Point , collinear q a c ∧ collinear q b d
+axiom l1 (a b : Point) : ell a b a
+axiom l2 (a b p q : Point) : ell a p q → ell b p q → p ≠ q → ell a b p
+axiom l3 (a b c d p: Point) : ell p a b → ell p c d →
+∃ q : Point , ell q a c ∧ ell q b d
 \end{leancode}
 Il y a quelques points à noter ici. Tout d'abord, les flèches
 utilisées ici sont différentes de celles que nous avons utilisées
@@ -577,18 +593,80 @@ permutations possibles de trois points $a, b, c$ à partir de
 $\ell(a, b, c)$. Ici, on ne donnera que $\ell(a, c, b)$ et les cinq
 autres versions seront omises.
 \begin{leancode}
-theorem acb (a b c : Point) : collinear a b c → collinear a c b := by
-intro col -- Supposons que $\ell(a,b,c)$.
-obtain rfl | hbc := eq_or_ne b c -- Si $b = c$,
-exact col -- le résultat est trivial,
+theorem acb (a b c : Point) : ell a b c → ell a c b := by
+intro acb_col -- Supposons que $\ell(a,b,c)$.
+obtain rfl | bc_neq := eq_or_ne b c -- Si $b = c$,
+exact acb_col -- le résultat est trivial,
 apply l2 a c b c -- sinon on applique $\text{L}_2$;
-exact col -- première condition de $\text{L}_2$
+exact acb_col -- première condition de $\text{L}_2$
 apply l1 c b -- deuxième condition de $\text{L}_2$
-exact hbc -- troisième condition de $\text{L}_2$.
+exact bc_neq -- troisième condition de $\text{L}_2$.
 \end{leancode}
-Ce code est la transcription exacte de la phrase \say{Si $b = c$, le
-  résultat est trivial, et sinon on applique $\text{L}_2$ à
-  $\ell(a,b,c)$ et $\ell(c,b,c)$}.
+Ce code est la transcription exacte de la phrase \say{Si $b = c$, le résultat
+  est trivial, et sinon on applique $\text{L}_2$ à $\ell(a,b,c)$ et
+  $\ell(c,b,c)$}.
+\section{Regrouper le point et les axiomes}
+Cette proposition la plus simple peut être considérée comme un premier théorème
+prouvé avec cette configuration. Des théorèmes plus ambitieux peuvent également
+être prouvés, mais décrire une géométrie projective en déclarant son point et
+axiomes les uns après les autres n'est pas la manière la plus élégante. Pour
+l'instant, ils n'ont qu'une relation sérielle dans le fichier. Ce qui est plus
+utile, c'est une structure qui contiendrait toutes les informations nécessaires
+à une géométrie projective. La structure suivante répond à ce besoin :
+\begin{leancode}
+class ProjectiveGeometry (point : Type u) where
+ell : point → point → point → Prop
+l1  : ∀ a b, ell a b a
+l2  : ∀ a b p q, ell a p q → ell b p q → p ≠ q → ell a b p
+l3  : ∀ a b c d p, ell p a b → ell p c d → ∃ q : point, ell q a c ∧ ell q b d
+\end{leancode}
+De cette manière, on a regroupé la relation de colinéarité et les axiomes
+(\say{bundling}), et le point est resté dégroupé (\say{unbundled}) parce qu'il
+s'agit d'un paramètre et que l'on veut que différents types de points
+correspondent à différentes géométries projectives. Pour mieux expliquer le
+contraste, on ne veut pas que des relations de colinéarité différentes
+correspondent à des géométries projectives différentes ; on pense à une relation
+de colinéarité canonique pour obtenir une géométrie projective. Ceci est
+expliqué en détail
+\href{https://leanprover.zulipchat.com/#narrow/stream/113489-new-members/topic/Creating.20a.20higher.20level.20object/near/423444220}{ici}.
+\section{Instances}
+Il est maintenant possible de déclarer que la projectivisation d'un espace
+vectoriel est une géométrie projective.
+\begin{leancode}
+instance : ProjectiveGeometry (ℙ K V) :=
+⟨
+fun X Y Z => ¬ Independent ![X, Y, Z],
+sorry,
+sorry,
+sorry
+⟩
+\end{leancode}
+Expliquons comment cela fonctionne : Tout d'abord, une relation de colinéarité
+sera fournie. Celle-ci est déjà établie mathématiquement dans la \cref{example}.
+La fonction \texttt{Independent} provient de mathlib4. Elle prend trois points
+de la projectivisation et affirme que leurs représentants sont linéairement
+dépendants. Sur le plan technique, il prend une famille de points de
+projectivisation. Une famille est une fonction d'indices dans des points.
+Heureusement, Lean dispose d'une syntaxe pour convertir une liste en une telle
+fonction : \say{\texttt{!}}. Si elle n'existait pas, on devrait l'écrire
+manuellement :
+\begin{leancode}
+def indexer_generator (X Y Z : ℙ K V) : Fin 3 → ℙ K V :=
+fun i : Fin 3 => match i with
+| 0 => X
+| 1 => Y
+| 2 => Z
+\end{leancode}
+
+Ensuite, les axiomes seront vérifiés. Lean remplacera la relation de colinéarité
+dans les axiomes pour nous. Les \say{sorry} servent de substitut à des preuves
+qui n'ont pas encore été écrites.
+
+Ainsi, nous pouvons continuer à étudier le côté purement synthétique et nos
+résultats s'appliqueront automatiquement à la projectivisation d'un espace
+vectoriel : Le côté concret. Pour les choses qui sont spécifiques aux
+projectivisations, nous pouvons bien sûr passer du côté concret et continuer à
+développer des propriétés pour elles.
 % \section{Prochaines Étapes}
 % Tout d'abord, la preuve en langage humain du théorème sera
 % minutieusement assimilée. Pour cela, le livre "Modern Projective
@@ -605,7 +683,7 @@ Ce code est la transcription exacte de la phrase \say{Si $b = c$, le
 % etc.
 
 % Enfin, le schéma complet de la preuve sera transcrit. Cela nécessitera
-% probablement une bonne maîtrise de la programmation en Lean 4, et il
+% probablement une bonne maîtrise de la programmation en Lean, et il
 % est prévu que cette exigence soit satisfaite en cours de route.
 \nocite{*}
 \printbibliography[title=Références,heading=subbibliography]
