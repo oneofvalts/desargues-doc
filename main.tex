@@ -5,7 +5,7 @@
 \setlength{\pagew}{210mm}
 \setlength{\pageh}{297mm}
 
-\setlength{\headheight}{16pt}
+\setlength{\headheight}{30pt}
 
 \setstocksize{\pageh}{\pagew}
 \settrimmedsize{\pageh}{\pagew}{*}
@@ -32,7 +32,7 @@
 \usepackage[math-style=ISO, bold-style=ISO]{unicode-math}
 \setmainfont{EB Garamond}
 \setmathfont{Garamond-Math.otf}[StylisticSet={7,9}]
-\setmonofont[Scale=MatchLowercase]{JetBrains Mono}
+\setmonofont[Scale=MatchLowercase]{Iosvmata}
 \usepackage{microtype}
 
 % \usepackage[no-math]{fontspec}
@@ -51,7 +51,7 @@
 % \makeatother
 
 \usepackage{graphicx}
-\usepackage{svg}
+% \usepackage{svg}
 \usepackage{minted}
 
 \newmintinline[lean]{lean}{bgcolor=white}
@@ -75,6 +75,13 @@
 
 \usepackage{tikz}
 \usetikzlibrary{intersections}
+
+\usetikzlibrary{external}
+\tikzexternalize[prefix=figures/]
+
+\usepackage{comment}
+\excludecomment{figure}
+\let\endfigure\relax
 
 \usepackage[
 backend=biber,
@@ -140,7 +147,7 @@ colorlinks
   % \setlength{\fboxsep}{0pt}%
   % \fbox{\includesvg[width=3cm]{logo.svg}}%
   % }
-  \includesvg[width=2.5cm]{logo.svg}
+  %   \includesvg[width=2.5cm]{logo.svg}
 
   \vspace{1cm}
   \large{\textbf{PROJET DE FIN D'ÉTUDES}}
@@ -184,8 +191,8 @@ Les deux aspects principaux de ce projet sont l'apprentissage des
 rudiments de la théorie des géométries projectives, et de la
 programmation en Lean 4. Avec ces deux aspects, le but ultime est de
 formaliser le théorème de Desargues dans Lean 4.
-\chapter{Géometrie Projective}
-\section{Rudiments}
+\chapter{Explications sur les résultats réquis de la géométrie projective}
+\section{Première rencontre}
 Pour motiver les géométries projectives, on commence par considérer
 les droites passant par l'origine dans le plan. On peut représenter la
 plupart de ces lignes par des points sur l'axe $y=1$.
@@ -258,9 +265,10 @@ précédemment. La remarque sur le choix de l'axe de représentation
 s'étend ici comme tout plan ne passant pas par l'origine peut être
 utilisé. De plus, le plan irreprésentable sera celui (qui passe par
 l'origine) qui est parallèle au plan de représentation.
+
+Ce processus s'appelle la \textit{projectivisation d'un espace vectoriel}.
+Écrivons-le en langage d'algèbre linéaire.
 \section{Projectivisation d'un espace vectoriel}
-Ce processus s'appelle la \textit{projectivisation d'un espace
-  vectoriel}. Écrivons-le en langage d'algèbre linéaire.
 \begin{defn}[{\cite[27]{ff00}}]
   \label{projectivization}
   Soit $V$ un espace vectoriel. Sur
@@ -352,8 +360,8 @@ projective.
   $\ell(X,Y,Z)$ si et seulement si $X, Y, Z$ ont des représentants
   $x, y, z$ linéairement dépendants.
 \end{prop}
-Notons maintenant la définition d'un isomorphisme de géométries
-projectives.
+\section{Isomorphismes}
+Les isomorphismes seront très utiles tout au long du voyage.
 \begin{defn}[{\cite[27]{ff00}}]
   Un \textit{isomorphisme} de géométries projectives est une bijection
   $g: G_1 \to G_2$ satisfaisant $\ell_1(a,b,c)$ si et seulement si
@@ -396,13 +404,65 @@ colinéation.
     &\iff \ell([T(x)], [T(y)], [T(z)]) \quad \text{\cref{example}}
   \end{align*}
 \end{exm}
-% Mais les colinéations sont bien plus que des applications linéaires
-% bijectives.
-% \begin{exm}
-%   Soit $x_1, x_2$ deux réels; $x_2$ non-nul, et $d$ la ratio
-%   $x_1 / x_2$. L'application $g: \proj(\R^2) \to \proj(\R^2)$,
-%   $[(x_1, x_2)] \mapsto [(d^3, 1)]$ est une collineation.
-% \end{exm}
+Mais les colinéations sont bien plus que des applications linéaires bijectives.
+En d'autres termes, il existe des collinéations qui ne sont pas induites par une
+application linéaire.
+\begin{exm}
+  L'application $g: \proj(\R^2) \to \proj(\R^2)$ définie par
+  $[(x_1, x_2)] \mapsto [((x_{1} / x_{2})^3, 1)]$ si $x_{2}$ est non-nul, et
+  $[(x_{1}, 0)] \mapsto [(x_{1}, 0)]$ sinon, est une collineation qui n'est pas
+  induite par une application linéaire.
+
+  L'application $g$ est bien définie. Soit $x_{1}, x_{2}, x_{1}', x_{2}'$ des
+  rééls; $x_{2}, x_{2'}$ non-nuls, tel que
+  $[(x_{1}, x_{2})] = [(x_{1}', x_{2}')]$. Alors, $x_{1}' = kx_{1}$ et
+  $x_{2}' = kx_{2}$ pour un $k$ non-nul. On a:
+  \begin{align*}
+    [((x_{1}' / x_{2}')^{3}, 1)] &= [((kx_{1} / kx_{2})^{3}, 1)] \\
+                                 &= [((x_{1} / x_{2})^{3}, 1)]
+  \end{align*}
+  D'où, $g$ est bien définie.
+
+  Montrons que $g$ est injective. Soit $x_{1}, x_{2}, x_{1}', x_{2}'$ des rééls
+  tel que
+  $$
+  [((x_{1} / x_{2})^{3}, 1)] = [((x_{1}' / x_{2}')^{3}), 1].
+  $$
+  On va montrer que $[(x_{1}, x_{2})] = [(x_{1}', x_{2}')]$. Par la définition
+  de la classe d'équivalence, on a
+  $$
+  ((x_{1} / x_{2})^{3}, 1) = k ((x_{1} / x_{2}')^{3}, 1)
+  $$
+  pour un $k$ non-nul. Alors, $k = 1$ et on a:
+  $$
+  x_{1} / x_{2} = x_{1}' / x_{2}'.
+  $$
+  Si $x_{1}$ est nul, alors $x_{1}'$ l'est aussi, et donc on a:
+  \begin{align*}
+    [(0, x_{2})] &= [0, \frac{x_{2}'}{x_{2}} x_{2}] \quad \text{ classe
+                   d'équivalence définition} \\
+                 &= [0, x_{2}]
+  \end{align*}
+  Sinon on a $x_{1} / x_{1}' = x_{2} / x_{2}'$ et donc:
+  \begin{align*}
+    [(x_{1}, x_{2})] &= [(\frac{x_{1}' x_{2}}{x_{2}'}, \frac{x_{1} x_{2}'}{x_{1}'})] \\
+                     &= [(x_{1}', x_{2}')]
+  \end{align*}
+  Enfin, on vérifie la reste de l'image. Soit $x_{3}$ un réél. Il est clair que
+  $[((x_{1} / x_{2})^{3}, 1)] \neq [(x_{3}, 0)]$. D'où, $g$ est injective. Pour
+  la surjectivité, prenons des rééls $x_{1}, x_{2}$. Si $x_{2}$ est nul, on a
+  $g([(x_{1}, 0)]) = [(x_{1}, 0)]$. Sinon on a:
+  \begin{align*}
+    g([(x_{1}^{1/3}, x_{2}^{1/3})]) &= [((x_{1}^{1/3} / x_{2}^{1/3})^{3}, 1)]
+                                      \quad \text{$g$ définition} \\
+                                    &= [(x_{1} / x_{2}, 1)] \\
+                                    &= [(x_{1}, x_{2})]
+                                     \quad \text{classe d'équivalence définition}.
+  \end{align*}
+
+  $g$ est automatiquement une collinéation car trois vecteurs quelconques sont
+  toujours linéairement dépendants dans $\R^2$.
+\end{exm}
 % Pour arriver à définir les endomorphisms, on note les définitions de
 % fonction partielle, de noyau et domaine d'un fonction partielle, de
 % sous-espace d'un géométrie projective, de morphisme et d'hyperplan.
@@ -463,12 +523,12 @@ faux ; après tout, lorsque l'on dit qu'une relation $\ell$ est
 valable, ce que l'on fait, c'est prendre trois points et se demander
 s'ils sont colinéaires ou non.
 \begin{leancode}
-        class HasCollinear (P : Type) where
-        collinear : P → P → P → Prop
+class HasCollinear (P : Type) where
+collinear : P → P → P → Prop
 
-        export HasCollinear (collinear)
+export HasCollinear (collinear)
 
-        variable {Point : Type} [HasCollinear Point]
+variable {Point : Type} [HasCollinear Point]
 \end{leancode}
 Ici, la flèche entre les types \texttt{P} peut être considérée comme
 la flèche entre le domaine et le codomaine dans les définitions de
@@ -484,11 +544,11 @@ Dans le code, cela est satisfait par la dernière ligne :
 Maintenant, on peut énoncer les axiomes $\text{L}_1$, $\text{L}_2$ et
 $\text{L}_3$ dans la \cref{projective-geometry}.
 \begin{leancode}
-        axiom l1 (a b : Point) : collinear a b a
-        axiom l2 (a b p q : Point) : collinear a p q → collinear b p q →
-        p ≠ q → collinear a b p
-        axiom l3 (a b c d p: Point) : collinear p a b → collinear p c d →
-        ∃ q : Point , collinear q a c ∧ collinear q b d
+axiom l1 (a b : Point) : collinear a b a
+axiom l2 (a b p q : Point) : collinear a p q → collinear b p q →
+p ≠ q → collinear a b p
+axiom l3 (a b c d p: Point) : collinear p a b → collinear p c d →
+∃ q : Point , collinear q a c ∧ collinear q b d
 \end{leancode}
 Il y a quelques points à noter ici. Tout d'abord, les flèches
 utilisées ici sont différentes de celles que nous avons utilisées
@@ -517,14 +577,14 @@ permutations possibles de trois points $a, b, c$ à partir de
 $\ell(a, b, c)$. Ici, on ne donnera que $\ell(a, c, b)$ et les cinq
 autres versions seront omises.
 \begin{leancode}
-        theorem acb (a b c : Point) : collinear a b c → collinear a c b := by
-        intro col -- Supposons que $\ell(a,b,c)$.
-        obtain rfl | hbc := eq_or_ne b c -- Si $b = c$,
-        exact col -- le résultat est trivial,
-        apply l2 a c b c -- sinon on applique $\text{L}_2$;
-        exact col -- première condition de $\text{L}_2$
-        apply l1 c b -- deuxième condition de $\text{L}_2$
-        exact hbc -- troisième condition de $\text{L}_2$.
+theorem acb (a b c : Point) : collinear a b c → collinear a c b := by
+intro col -- Supposons que $\ell(a,b,c)$.
+obtain rfl | hbc := eq_or_ne b c -- Si $b = c$,
+exact col -- le résultat est trivial,
+apply l2 a c b c -- sinon on applique $\text{L}_2$;
+exact col -- première condition de $\text{L}_2$
+apply l1 c b -- deuxième condition de $\text{L}_2$
+exact hbc -- troisième condition de $\text{L}_2$.
 \end{leancode}
 Ce code est la transcription exacte de la phrase \say{Si $b = c$, le
   résultat est trivial, et sinon on applique $\text{L}_2$ à
