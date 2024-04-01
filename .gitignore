@@ -2,18 +2,24 @@
 *~
 
 *.aux
-*.log
-*.out
-*.toc
-*.run.xml
-*.gz
+*.auxlock
 *.bbl
 *.bcf
 *.blg
+*.gz
+*.log
+*.out
+*.run.xml
+*.toc
 
 *.dvi
 *.ps
 
-svg-inkscape
+.auctex-auto
 drawing
+proof-schema
+svg-inkscape
 
+_minted-main/
+drawings/
+figures/
