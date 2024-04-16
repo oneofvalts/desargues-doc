@@ -1,4 +1,4 @@
-\documentclass[12pt, oneside]{memoir}
+\documentclass[10pt, oneside]{memoir}
 
 \newlength{\pagew}
 \newlength{\pageh}
@@ -9,7 +9,7 @@
 
 \setstocksize{\pageh}{\pagew}
 \settrimmedsize{\pageh}{\pagew}{*}
-\settypeblocksize{250mm}{150mm}{*}
+\settypeblocksize{170mm}{110mm}{*}
 \setlrmargins{*}{*}{1}
 \setulmargins{*}{*}{1}
 \setmarginnotes{0cm}{0cm}{0cm}
@@ -34,6 +34,8 @@
 \setmathfont{Garamond-Math.otf}[StylisticSet={7,9}]
 \setmonofont[Scale=MatchLowercase]{Iosvmata}
 \usepackage{microtype}
+
+\usepackage[nomarkers, figuresonly]{endfloat}
 
 % \usepackage[no-math]{fontspec}
 % \setmainfont{EB Garamond}
@@ -169,7 +171,7 @@ colorlinks
   \vspace{2.25cm}
   {\Large\textbf{Formalisation du théorème de Desargues en Lean}}
 
-  Rapport 2
+  Rapport 3
 
   \vspace{1.25cm}
   Préparé par \textbf{Abdullah Uyu}
@@ -685,6 +687,7 @@ développer des propriétés pour elles.
 % Enfin, le schéma complet de la preuve sera transcrit. Cela nécessitera
 % probablement une bonne maîtrise de la programmation en Lean, et il
 % est prévu que cette exigence soit satisfaite en cours de route.
+\clearpage
 \nocite{*}
 \printbibliography[title=Références,heading=subbibliography]
 \end{document}
