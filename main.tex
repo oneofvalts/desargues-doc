@@ -7,6 +7,12 @@
 
 \setlength{\headheight}{30pt}
 
+%\setlength{\headheight}{0pt}
+%\setlength{\headsep}{40pt}
+%\setlength{\footskip}{25pt}
+%\setlength{\pagew}{125mm}
+%\setlength{\pageh}{205mm}
+
 \setstocksize{\pageh}{\pagew}
 \settrimmedsize{\pageh}{\pagew}{*}
 \settypeblocksize{170mm}{110mm}{*}
@@ -32,6 +38,8 @@
 \usepackage[math-style=ISO, bold-style=ISO]{unicode-math}
 \setmainfont{EB Garamond}
 \setmathfont{Garamond-Math.otf}[StylisticSet={7,9}]
+%\setmainfont{TeX Gyre Pagella}
+%\setmathfont{TeX Gyre Pagella Math}
 \setmonofont[Scale=MatchLowercase]{Iosvmata}
 \usepackage{microtype}
 
@@ -111,6 +119,18 @@ colorlinks
 \setsecnumdepth{section}
 \renewcommand\thesection{\arabic{section}}
 
+% Remove the word "Chapter n" from chapter heading.
+\makeatletter
+\renewcommand\printchaptername{}
+\renewcommand\printchapternum{}
+\makeatother
+
+% Remove the word "CHAPTER n" from header.
+\addtopsmarks{headings}{}{
+  \createmark{chapter}{right}{nonumber}{}{}
+}
+\pagestyle{headings} % activate changes
+
 \newtheorem{thm}{Théorème}
 \newtheorem{prop}{Proposition}
 \theoremstyle{definition}
@@ -171,7 +191,7 @@ colorlinks
   \vspace{2.25cm}
   {\Large\textbf{Formalisation du théorème de Desargues en Lean}}
 
-  Rapport 3
+  Rapport 4
 
   \vspace{1.25cm}
   Préparé par \textbf{Abdullah Uyu}
@@ -179,7 +199,7 @@ colorlinks
   Résponsable : \textbf{Can Ozan Oğuz}
 
   \vspace{2.25cm}
-  \textit{5 novembre 2023}
+  \textit{6 mai 2024}
   \vspace*{\fill}
 \end{center}
 \clearpage
@@ -187,19 +207,18 @@ colorlinks
 \iraggedright
 \pagenumbering{arabic}
 \chapter{Introduction}
-\paragraph{Motivation}
 Lean est un assistant de preuve. La transcription d'une preuve en
 langage humain dans un assistant de preuve est appelée
 \textit{formalisation}. Lean dispose d'une grande bibliothèque de
 preuves, y compris de nombreuses preuves du niveau de licence, appelée
 mathlib4. Dans cette bibliothèque, il y a d'importants théorèmes
 manquants, et le théorème de Desargues est l'un d'entre eux.
-\paragraph{Objectifs du Projet}
+
 Les deux aspects principaux de ce projet sont l'apprentissage des
 rudiments de la théorie des géométries projectives, et de la
 programmation en Lean. Avec ces deux aspects, le but ultime est de
 formaliser le théorème de Desargues dans Lean.
-\chapter{Explications sur les résultats réquis de la géométrie projective}
+\chapter{Résultats réquis}
 \section{Première rencontre}
 Pour motiver les géométries projectives, on commence par considérer
 les droites passant par l'origine dans le plan. On peut représenter la
@@ -287,13 +306,13 @@ Ce processus s'appelle la \textit{projectivisation d'un espace vectoriel}.
   $\proj(V) \defeq V^{\unbutton} / {\sim}$ est bien défini. $\proj(V)$
   est appelée la \textit{projectivisation de l'espace vectoriel $V$}.
 \end{defn}
-% Pour simplifier le langage, nous aurons également besoin de la
-% définition de l'union disjointe.
-% \begin{defn}
-%   Soit $A$ et $B$ deux ensembles. L'union
-%   $(A \times \set{1}) \cup (B \times \set{0})$, noté $A \discup B$, est
-%   appelée \textit{union disjointe} de $A$ et $B$.
-% \end{defn}
+Pour simplifier le langage, nous aurons également besoin de la
+définition de l'union disjointe.
+\begin{defn}
+  Soit $A$ et $B$ deux ensembles. L'union
+  $(A \times \set{1}) \cup (B \times \set{0})$, noté $A \discup B$, est
+  appelée \textit{union disjointe} de $A$ et $B$.
+\end{defn}
 La motivation ci-dessus peut donc être formulée comme suit :
 \begin{align*}
   \label{eq:embedding}
@@ -421,8 +440,8 @@ application linéaire.
   $[(x_{1}, 0)] \mapsto [(x_{1}, 0)]$ sinon, est une collineation qui n'est pas
   induite par une application linéaire.
 
-  L'application $g$ est bien définie. Soit $x_{1}, x_{2}, x_{1}', x_{2}'$ des
-  rééls; $x_{2}, x_{2'}$ non-nuls, tel que
+  L'application $g$ est bien définie. Soit $x_{1} > 0, x_{2} > 0, x_{1}', x_{2}'$ des
+  réels tel que
   $[(x_{1}, x_{2})] = [(x_{1}', x_{2}')]$. Alors, $x_{1}' = kx_{1}$ et
   $x_{2}' = kx_{2}$ pour un $k$ non-nul. On a:
   \begin{align*}
@@ -431,7 +450,7 @@ application linéaire.
   \end{align*}
   D'où, $g$ est bien définie.
 
-  Montrons que $g$ est injective. Soit $x_{1}, x_{2}, x_{1}', x_{2}'$ des rééls
+  Montrons que $g$ est injective. Soit $x_{1}, x_{2}, x_{1}', x_{2}'$ des réels
   tel que
   $$
   [((x_{1} / x_{2})^{3}, 1)] = [((x_{1}' / x_{2}')^{3}), 1].
@@ -456,9 +475,9 @@ application linéaire.
     [(x_{1}, x_{2})] &= [(\frac{x_{1}' x_{2}}{x_{2}'}, \frac{x_{1} x_{2}'}{x_{1}'})] \\
                      &= [(x_{1}', x_{2}')] \quad \text{classe d'équivalence définition}
   \end{align*}
-  Enfin, on vérifie la reste de l'image. Soit $x_{3}$ un réél. Il est clair que
+  Enfin, on vérifie la reste de l'image. Soit $x_{3}$ un réel. Il est clair que
   $[((x_{1} / x_{2})^{3}, 1)] \neq [(x_{3}, 0)]$. D'où, $g$ est injective. Pour
-  la surjectivité, prenons des rééls $x_{1}, x_{2}$. Si $x_{2}$ est nul, on a
+  la surjectivité, prenons des réels $x_{1}, x_{2}$. Si $x_{2}$ est nul, on a
   $g([(x_{1}, 0)]) = [(x_{1}, 0)]$. Sinon on a:
   \begin{align*}
     g([(x_{1}^{1/3}, x_{2}^{1/3})]) &= [((x_{1}^{1/3} / x_{2}^{1/3})^{3}, 1)]
@@ -474,8 +493,8 @@ application linéaire.
   Montrons maintenant que $g$ n'est pas induite par une application linéaire.
   Supposons par l'absurde que $g$ est induite par l'application linéaire
   $T : \R^{2} \to \R^{2}$. Alors on a $T(1, 0) = (k_{1}, 0)$ et
-  $T(0, 1) = (0, k_{2})$ pour $k_{1}, k_{2}$ non-nuls. Soit $x_{1}$ un réél.
-  D'un part, on a $T(x, 1) = k_{x} (x^{3}, 1)$ pour un $k_{x}$ non-nul, et
+  $T(0, 1) = (0, k_{2})$ pour $k_{1}, k_{2}$ non-nuls. Soit $x_{1}$ un réel.
+  D'une part, on a $T(x, 1) = k_{x} (x^{3}, 1)$ pour un $k_{x}$ non-nul, et
   d'autre part, on a $T(x, 1) = x T(1, 0) + T(0, 1)$. Donc, on a:
   $$
   k_{x} (x^{3}, 1) = x (k_{1}, 0) + (0, k_{2})
@@ -566,7 +585,7 @@ $\text{L}_3$ dans la \cref{projective-geometry}.
 axiom l1 (a b : Point) : ell a b a
 axiom l2 (a b p q : Point) : ell a p q → ell b p q → p ≠ q → ell a b p
 axiom l3 (a b c d p: Point) : ell p a b → ell p c d →
-∃ q : Point , ell q a c ∧ ell q b d
+                              ∃ q : Point , ell q a c ∧ ell q b d
 \end{leancode}
 Il y a quelques points à noter ici. Tout d'abord, les flèches
 utilisées ici sont différentes de celles que nous avons utilisées
@@ -595,14 +614,16 @@ permutations possibles de trois points $a, b, c$ à partir de
 $\ell(a, b, c)$. Ici, on ne donnera que $\ell(a, c, b)$ et les cinq
 autres versions seront omises.
 \begin{leancode}
-theorem acb (a b c : Point) : ell a b c → ell a c b := by
-intro acb_col -- Supposons que $\ell(a,b,c)$.
-obtain rfl | bc_neq := eq_or_ne b c -- Si $b = c$,
-exact acb_col -- le résultat est trivial,
-apply l2 a c b c -- sinon on applique $\text{L}_2$;
-exact acb_col -- première condition de $\text{L}_2$
-apply l1 c b -- deuxième condition de $\text{L}_2$
-exact bc_neq -- troisième condition de $\text{L}_2$.
+theorem acb
+  (a b c : Point) :
+    ell a b c → ell a c b := by
+  intro acb_col -- Supposons que $\ell(a,b,c)$.
+  obtain rfl | bc_neq := eq_or_ne b c -- Si $b = c$,
+  exact acb_col -- le résultat est trivial,
+  apply l2 a c b c -- sinon on applique $\text{L}_2$;
+  exact acb_col -- première condition de $\text{L}_2$
+  apply l1 c b -- deuxième condition de $\text{L}_2$
+  exact bc_neq -- troisième condition de $\text{L}_2$.
 \end{leancode}
 Ce code est la transcription exacte de la phrase \say{Si $b = c$, le résultat
   est trivial, et sinon on applique $\text{L}_2$ à $\ell(a,b,c)$ et
@@ -616,11 +637,13 @@ l'instant, ils n'ont qu'une relation sérielle dans le fichier. Ce qui est plus
 utile, c'est une structure qui contiendrait toutes les informations nécessaires
 à une géométrie projective. La structure suivante répond à ce besoin :
 \begin{leancode}
-class ProjectiveGeometry (point : Type u) where
-ell : point → point → point → Prop
-l1  : ∀ a b, ell a b a
-l2  : ∀ a b p q, ell a p q → ell b p q → p ≠ q → ell a b p
-l3  : ∀ a b c d p, ell p a b → ell p c d → ∃ q : point, ell q a c ∧ ell q b d
+class ProjectiveGeometry
+  (point : Type u) where
+  ell : point → point → point → Prop
+  l1  : ∀ a b, ell a b a
+  l2  : ∀ a b p q, ell a p q → ell b p q → p ≠ q → ell a b p
+  l3  : ∀ a b c d p, ell p a b → ell p c d →
+                     ∃ q : point, ell q a c ∧ ell q b d
 \end{leancode}
 De cette manière, on a regroupé la relation de colinéarité et les axiomes
 (\say{bundling}), et le point est resté dégroupé (\say{unbundled}) parce qu'il
@@ -636,12 +659,12 @@ Il est maintenant possible de déclarer que la projectivisation d'un espace
 vectoriel est une géométrie projective.
 \begin{leancode}
 instance : ProjectiveGeometry (ℙ K V) :=
-⟨
-fun X Y Z => ¬ Independent ![X, Y, Z],
-sorry,
-sorry,
-sorry
-⟩
+  ⟨
+  fun X Y Z => ¬ Independent ![X, Y, Z],
+  sorry,
+  sorry,
+  sorry
+  ⟩
 \end{leancode}
 Expliquons comment cela fonctionne : Tout d'abord, une relation de colinéarité
 sera fournie. Celle-ci est déjà établie mathématiquement dans la \cref{example}.
@@ -653,11 +676,13 @@ Heureusement, Lean dispose d'une syntaxe pour convertir une liste en une telle
 fonction : \say{\texttt{!}}. Si elle n'existait pas, on devrait l'écrire
 manuellement :
 \begin{leancode}
-def indexer_generator (X Y Z : ℙ K V) : Fin 3 → ℙ K V :=
-fun i : Fin 3 => match i with
-| 0 => X
-| 1 => Y
-| 2 => Z
+def indexer_generator
+  (X Y Z : ℙ K V) :
+    Fin 3 → ℙ K V :=
+  fun i : Fin 3 => match i with
+  | 0 => X
+  | 1 => Y
+  | 2 => Z
 \end{leancode}
 
 Ensuite, les axiomes seront vérifiés. Lean remplacera la relation de colinéarité
