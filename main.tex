@@ -1,17 +1,22 @@
-\documentclass[10pt, oneside]{memoir}
+\documentclass[10pt]{memoir}
 
 \newlength{\pagew}
+
 \newlength{\pageh}
 \setlength{\pagew}{210mm}
 \setlength{\pageh}{297mm}
-
-\setlength{\headheight}{30pt}
-
-%\setlength{\headheight}{0pt}
-%\setlength{\headsep}{40pt}
-%\setlength{\footskip}{25pt}
 %\setlength{\pagew}{125mm}
-%\setlength{\pageh}{205mm}
+%\setlength{\pageh}{201mm}
+
+\setlength{\headheight}{20pt}
+\setlength{\headsep}{10pt}
+\setlength{\footskip}{20pt}
+
+% \setlength{\headheight}{0pt}
+% \setlength{\headsep}{40pt}
+% \setlength{\footskip}{25pt}
+% \setlength{\pagew}{125mm}
+% \setlength{\pageh}{205mm}
 
 \setstocksize{\pageh}{\pagew}
 \settrimmedsize{\pageh}{\pagew}{*}
@@ -38,12 +43,13 @@
 \usepackage[math-style=ISO, bold-style=ISO]{unicode-math}
 \setmainfont{EB Garamond}
 \setmathfont{Garamond-Math.otf}[StylisticSet={7,9}]
-%\setmainfont{TeX Gyre Pagella}
-%\setmathfont{TeX Gyre Pagella Math}
+% \setmainfont{TeX Gyre Pagella}
+% \setmathfont{TeX Gyre Pagella Math}
 \setmonofont[Scale=MatchLowercase]{Iosvmata}
 \usepackage{microtype}
 
-\usepackage[nomarkers, figuresonly]{endfloat}
+% Put figures at the end of the document
+% \usepackage[nomarkers, figuresonly]{endfloat}
 
 % \usepackage[no-math]{fontspec}
 % \setmainfont{EB Garamond}
@@ -61,11 +67,13 @@
 % \makeatother
 
 \usepackage{graphicx}
+\usepackage{rotating}
 \usepackage{svg}
 \usepackage{minted}
 
-\newmintinline[lean]{lean}{bgcolor=white}
-\newminted[leancode]{lean}{}
+\definecolor{bg}{rgb}{0.95,0.95,0.95}
+\newmintinline[lean]{lean}{bgcolor=bg}
+\newminted[leancode]{lean}{bgcolor=bg}
 \usemintedstyle{tango}
 
 \usepackage{float}
@@ -97,7 +105,9 @@
 
 % \usepackage{comment}
 % \excludecomment{figure}
+% \excludecomment{sidewaysfigure}
 % \let\endfigure\relax
+% \let\endsidewaysfigure\relax
 
 \usepackage[
 backend=biber,
@@ -119,17 +129,15 @@ colorlinks
 \setsecnumdepth{section}
 \renewcommand\thesection{\arabic{section}}
 
-% Remove the word "Chapter n" from chapter heading.
+% Remove the word "Chapter n" from chapter heading, and adjust spacing.
 \makeatletter
 \renewcommand\printchaptername{}
 \renewcommand\printchapternum{}
+\renewcommand\chaptitlefont{\bfseries\LARGE}
+\renewcommand\beforechapskip{0cm}
+\renewcommand\midchapskip{0pt}
+\renewcommand\afterchapskip{1.8ex}
 \makeatother
-
-% Remove the word "CHAPTER n" from header.
-\addtopsmarks{headings}{}{
-  \createmark{chapter}{right}{nonumber}{}{}
-}
-\pagestyle{headings} % activate changes
 
 \newtheorem{thm}{Théorème}
 \newtheorem{prop}{Proposition}
@@ -168,6 +176,7 @@ colorlinks
 \newcommand{\R}{\mathbf{R}}
 
 \begin{document}
+\frontmatter
 \thispagestyle{empty}
 \begin{center}
   \vspace*{\fill}
@@ -202,11 +211,38 @@ colorlinks
   \textit{6 mai 2024}
   \vspace*{\fill}
 \end{center}
-\clearpage
-\tableofcontents
 \iraggedright
-\pagenumbering{arabic}
-\chapter{Introduction}
+\chapter*{Remerciments}
+Tout d'abord, je tiens à remercier mon professeur, Can Ozan, pour
+l'attention et le soin qu'il a apportés à mon étude. Il a non seulement
+suivi les développements de mon étude, mais il a également appris à mes
+côtés pour mieux me guider. J'étais toujours enthousiaste à l'idée de
+partager mes résultats avec lui et de voir qu'il l'était aussi. Ses
+évaluations de mes rapports étaient très détaillées et il m'a toujours
+aidé à résoudre l'état brumeux de mon esprit induit par de longues
+périodes d'étude. Il le faisait en posant des questions cruciales qui
+aidaient également l'étude à reprendre son rythme dans les moments
+critiques.
+
+Je dois également remercier les utilisateurs du canal Zulip Anand Patel,
+André Hernández-Espiet (Rutgers), Eric Wieser, Filippo A. E. Nuccio,
+Jireh Loreaux, Joseph Myers, Kevin Buzzard, Kyle Miller, Matt Diamond,
+Patrick Massot, Riccardo Brasca, Richard Copley, Ruben Van de Velde,
+Sabrina Jewson, Sophie Morel et Yaël Dillies pour leur aide dans le cadre
+de la programmation Lean.
+
+Je voudrais également remercier ma famille qui m'a soutenu par ses vœux
+et ses prières. En particulier, l'intérêt de mon frère aîné Bayram à
+écouter le travail une fois terminé est très précieux pour moi.
+
+Enfin, je voudrais remercier ma compagne, Esra, pour sa patience et pour
+avoir toujours été à mes côtés. Sans sa présence et son aide, je n'aurais
+jamais commencé à étudier.
+
+\vfill{}
+\hfill{} \textit{à Esra}
+\vfill{}
+\chapter*{Introduction}
 Lean est un assistant de preuve. La transcription d'une preuve en
 langage humain dans un assistant de preuve est appelée
 \textit{formalisation}. Lean dispose d'une grande bibliothèque de
@@ -218,6 +254,9 @@ Les deux aspects principaux de ce projet sont l'apprentissage des
 rudiments de la théorie des géométries projectives, et de la
 programmation en Lean. Avec ces deux aspects, le but ultime est de
 formaliser le théorème de Desargues dans Lean.
+\clearpage
+\tableofcontents*
+\mainmatter
 \chapter{Résultats réquis}
 \section{Première rencontre}
 Pour motiver les géométries projectives, on commence par considérer
@@ -226,9 +265,9 @@ plupart de ces lignes par des points sur l'axe $y=1$.
 \begin{figure}[H]
   \centering
   \begin{tikzpicture}
-    \draw[-stealth,ultra thick] (-5,0)--(5,0) node[right] {$x$};
-    \draw[-stealth,ultra thick] (0,-2)--(0,4) node[above] {$y$};
-    \draw[name path=y1,semithick] (-4,1)--(4,1) node[right] {$y=1$};
+    \draw[-stealth,semithick] (-4,0)--(4,0) node[right] {$x$};
+    \draw[-stealth,semithick] (0,-2)--(0,4) node[above] {$y$};
+    \draw[name path=y1,semithick] (-3,1)--(3,1) node[right] {$y=1$};
     \draw[name path=line 1,semithick] (1,-1.5)--(-2,3) {};
     \draw[name path=line 2, semithick] (-2,-1.5)--(4,3) {};
     \fill[name intersections={of=y1 and line 1}] (intersection-1) circle (2pt)
@@ -484,7 +523,7 @@ application linéaire.
                                       \quad \text{$g$ définition} \\
                                     &= [(x_{1} / x_{2}, 1)] \\
                                     &= [(x_{1}, x_{2})]
-                                     \quad \text{classe d'équivalence définition}.
+                                      \quad \text{classe d'équivalence définition}.
   \end{align*}
 
   $g$ est automatiquement une collinéation car trois vecteurs quelconques sont
@@ -493,7 +532,7 @@ application linéaire.
   Montrons maintenant que $g$ n'est pas induite par une application linéaire.
   Supposons par l'absurde que $g$ est induite par l'application linéaire
   $T : \R^{2} \to \R^{2}$. Alors on a $T(1, 0) = (k_{1}, 0)$ et
-  $T(0, 1) = (0, k_{2})$ pour $k_{1}, k_{2}$ non-nuls. Soit $x_{1}$ un réel.
+  $T(0, 1) = (0, k_{2})$ pour $k_{1}, k_{2}$ non-nuls. Soit $x$ un réel.
   D'une part, on a $T(x, 1) = k_{x} (x^{3}, 1)$ pour un $k_{x}$ non-nul, et
   d'autre part, on a $T(x, 1) = x T(1, 0) + T(0, 1)$. Donc, on a:
   $$
@@ -502,6 +541,34 @@ application linéaire.
   Par conséquent, on obtient l'égalité des polynômes $k_{2}x^{3} = k_{1}x$ qui
   entraîne $k_{1} = k_{2} = 0$. Ceci oblige $T = 0$ qui est absurde.
 \end{exm}
+\section{Sous-espaces}
+Cette partie comprend les structures qui sont importantes pour la
+première grande étape du projet.
+\begin{defn}
+  Un \textit{sous-espace} d'un géométrie projective $G$ est un
+  sous-ensemble $E \subseteq G$ satisfaisant
+  $$
+  a, b \in E \implies a \star b \subseteq E
+  $$
+\end{defn}
+\begin{defn}
+  Un \textit{sous-géométrie projective} d'un géométrie projective $G$ est
+  un sous-ensemble $G' \subseteq G$ tel que $G'$ avec la restriction
+  $\ell' \defeq \ell \cap (G' \times G' \times G')$ est aussi un
+  géométrie projective.
+\end{defn}
+On s'intéresse au résultat suivant.
+\begin{prop}
+Tout sous-espace est une sous-géométrie projective.
+\end{prop}
+On définit également des droites.
+\begin{defn}
+  Une droite de $G$ est un sous-ensemble de la forme $\delta = a \star
+  b$ où $a \neq b \in G$.
+\end{defn}
+\begin{prop}
+  Toute ligne est un sous-espace.
+\end{prop}
 % Pour arriver à définir les endomorphisms, on note les définitions de
 % fonction partielle, de noyau et domaine d'un fonction partielle, de
 % sous-espace d'un géométrie projective, de morphisme et d'hyperplan.
@@ -645,14 +712,15 @@ class ProjectiveGeometry
   l3  : ∀ a b c d p, ell p a b → ell p c d →
                      ∃ q : point, ell q a c ∧ ell q b d
 \end{leancode}
-De cette manière, on a regroupé la relation de colinéarité et les axiomes
-(\say{bundling}), et le point est resté dégroupé (\say{unbundled}) parce qu'il
-s'agit d'un paramètre et que l'on veut que différents types de points
-correspondent à différentes géométries projectives. Pour mieux expliquer le
-contraste, on ne veut pas que des relations de colinéarité différentes
-correspondent à des géométries projectives différentes ; on pense à une relation
-de colinéarité canonique pour obtenir une géométrie projective. Ceci est
-expliqué en détail
+De cette manière, on a \textit{regroupé} la relation de colinéarité et
+les axiomes (\say{bundling}), et le point est resté \textit{dégroupé}
+(\say{unbundled}) parce qu'il s'agit d'un paramètre et que l'on veut que
+différents types de points correspondent à différentes géométries
+projectives. Pour mieux expliquer le contraste, on ne veut pas que des
+relations de colinéarité différentes correspondent à des géométries
+projectives différentes ; on pense à une relation de colinéarité
+canonique pour obtenir une géométrie projective. Ceci est expliqué en
+détail
 \href{https://leanprover.zulipchat.com/#narrow/stream/113489-new-members/topic/Creating.20a.20higher.20level.20object/near/423444220}{ici}.
 \section{Instances}
 Il est maintenant possible de déclarer que la projectivisation d'un espace
@@ -694,25 +762,259 @@ résultats s'appliqueront automatiquement à la projectivisation d'un espace
 vectoriel : Le côté concret. Pour les choses qui sont spécifiques aux
 projectivisations, nous pouvons bien sûr passer du côté concret et continuer à
 développer des propriétés pour elles.
-% \section{Prochaines Étapes}
-% Tout d'abord, la preuve en langage humain du théorème sera
-% minutieusement assimilée. Pour cela, le livre "Modern Projective
-% Geometry" \cite{ff00} de Claude-Alain Faure et Alfred Frölicher sera
-% utilisé. Ce livre offre un cadre complet pour l'étude des géométries
-% projectives. En particulier, le théorème de
-% Desargues est compris en
-% termes d'endomorphismes des géométries projectives et la preuve est
-% effectuée en conséquence.
+\section{Les yeux fermés}
+Une chose que j'ai souvent constatée tout au long de mon parcours, c'est
+que le livre est extrêmement prudent dans ce qu'il fait et ce qu'il dit.
+L'une de mes dernières expériences a été de réaliser que la fonction de
+colinéarité devrait en fait être dégroupé. Je m'en suis rendu compte une
+fois que j'ai essayé de montrer qu'un ensemble ayant deux fonctions de
+colinéarité différentes peut en fait être deux géométries projectives
+différentes, mais la fonction de colinéarité étant groupée, il était
+impossible de l'énoncer en premier lieu. En fait, nous devrions énoncer
+la classe de géométrie projective comme suit :
+\begin{leancode}
+class ProjectiveGeometry
+  (G : Type u)
+  (ell : G → G → G → Prop) where
+  l1  : ∀ a b , ell a b a
+  l2  : ∀ a b p q , ell a p q → ell b p q → p ≠ q → ell a b p
+  l3  : ∀ a b c d p, ell p a b → ell p c d → ∃ q, ell q a c ∧ ell q b d
+\end{leancode}
+Cela correspond en fait à la définition donnée dans le livre : Une
+géométrie projective est un ensemble $G$ avec une relation de colinéarité
+$\ell$\ldots{} J'ai tiré deux leçons de cette expérience : La première est
+que lors de la formalisation d'un livre, il faut essayer de comprendre
+les intentions de l'auteur, en particulier lorsqu'une définition de base
+est donnée. La seconde est que, si le livre est suffisamment prudent
+(formel, rigoureux\ldots), il peut être possible de formaliser les yeux
+fermés. Par les yeux fermés, je veux dire formaliser comme un robot, dans
+un état pas particulièrement attentif.
 
-% Deuxièmement, l'existence des transcriptions de la machinerie requise,
-% dans mathlib4 sera vérifiée. Quelques exemples seraient la définition
-% de la projectivisation, des morphismes entre des espaces projectifs,
-% etc.
+Cela a été possible de manière très surprenante dans de nombreux cas. Je
+ne faisais qu'appliquer syntaxiquement les phrases des preuves les unes
+après les autres. Bien sûr, j'ai souvent pensé aux mécanismes (tactiques,
+structures ou autres caractéristiques du langage Lean) nécessaires à
+l'élaboration de la preuve donnée dans le livre, mais une fois cela fait,
+le travail consistait simplement à exécuter la preuve avec soin. C'est,
+encore une fois de manière surprenante, possible parce qu'il y a un
+vérificateur de preuves qui crie constamment la prochaine chose à
+montrer. Sans lui, il n'est pas possible d'avancer dans la preuve sans
+réfléchir.
+\section{Dépendances}
+J'ai été enthousiasmé de voir que les épreuves données dans le livre
+fonctionnaient bien. Cela passe par l'efficacité des preuves, la mention
+claire et explicite des propriétés, remarques, propositions ou théorèmes
+précédents montrés. Le livre a un sens de l'ordre très précis ; en tant
+qu'étudiant de premier cycle, j'étais un peu timide à l'approche du
+livre, mais avec le temps et sa précision, je me suis continuellement
+familiarisé avec le livre.
 
-% Enfin, le schéma complet de la preuve sera transcrit. Cela nécessitera
-% probablement une bonne maîtrise de la programmation en Lean, et il
-% est prévu que cette exigence soit satisfaite en cours de route.
-\clearpage
+Maintenant que j'ai parlé de la nature du livre, je devrais peut-être
+continuer à l'expliquer en détail. Le livre est un traité de géométrie
+projective avec morphismes. Il s'agit d'une géométrie projective
+axiomatique, et non d'une géométrie projective analytique. Et les
+morphismes sont des fonctions partielles, et non des fonctions à
+proprement parler. Le livre explique que c'est peut-être la raison pour
+laquelle il n'existe pas de traitement systématique de la géométrie
+projective avec morphismes. Le livre ajoute ensuite : \say{Nous avons
+  l'intention de combler cette lacune. C'est en ce sens que la présente
+  monographie peut être qualifiée de moderne}.
+
+Il semble que l'ambition d'utiliser l'algèbre se soit étendue à d'autres
+parties du livre, car celui-ci utilise également la théorie des treillis
+et la théorie des catégories pour diverses parties de la géométrie
+projective. Pour le meilleur ou pour le pire, j'ai maintenant une
+certaine compréhension de la façon dont différentes abstractions peuvent
+être utilisées et incorporées lors de la construction d'une théorie. En
+particulier dans la théorie des treillis, j'ai apprécié l'utilisation de
+l'opérateur $\vee$ dans la définition de l'hyperplan.
+
+Mais cette généralité a été un obstacle pendant la plus grande partie du
+voyage. J'essayais constamment de réduire ces notations et ces
+définitions parfois riches en formes pures. Par formes pures, j'entends
+les formes n'impliquant que les axiomes de la géométrie projective et les
+définitions que j'avais données jusqu'alors. Cette réduction était très
+difficile, d'une part parce que je devais apprendre une nouvelle théorie
+à partir de zéro et me familiariser avec ses notations, et d'autre part
+parce que je n'avais pas le temps de me familiariser avec la géométrie
+projective. Donnons la définition d'un hyperplan.
+\begin{defn}[{\cite[38]{ff00}}]
+  Un \textit{hyperplan} d'une géométrie projective $G$ est un
+  sous-espace $H$ de $G$ qui est maximal parmi les sous-espaces
+  stricts de $G$.
+\end{defn}
+Immédiatement après la définition, nous avons la proposition énonçant les
+conditions équivalentes pour être un hyperplan.
+\begin{prop}
+  Pour un sous-espace $H$ d'une géométrie projective $G$, les conditions
+  suivantes sont équivalentes :
+  \begin{itemize}
+    \item $H$ est un hyperplan,
+    \item $H$ est un sous-espace strict et pour tout point $a \in H$ on a
+      $a \vee H = G$,
+    \item il existe un point $a \not \in H$ tel que $a \vee H = G$,
+    \item $H \neq G$ et pour tout point $a \neq b$ on a $(a \star b) \cap
+      H \neq \emptyset$.
+  \end{itemize}
+\end{prop}
+Ici, nous pouvons voir à la fois la forme pure, la forme théorique du
+treillis et le mélange des deux. L'objectif de cette proposition est en
+fait de les coller, de sorte que chacune d'entre elles puisse être
+utilisée librement par la suite. Mais du côté de la formalisation, c'est
+difficile. Il y a deux options pour les chemins à prendre. La première
+consiste à formaliser également les définitions et théorèmes de la
+théorie des treillis nécessaires, ou à les utiliser à partir de mathlib4
+s'ils sont déjà formalisés, ce qui n'est pas toujours une opération
+parfaitement aisée. L'autre consiste à traduire à la main toutes les
+définitions et théorèmes de la théorie des treillis en formes pures et à
+les utiliser. Ici, nous avons heureusement une forme pure, mais lorsque
+le livre utilisera librement les théorèmes de treillis plus tard, nous
+serons coincés. Il s'agit donc d'un aspect dont il faut être conscient
+dans le cadre de la formalisation. Je pense pouvoir dire en toute
+confiance que cela a été la partie la plus sophistiquée, la plus longue
+et la plus fastidieuse de l'aventure.
+\section{Progression et régression}
+Maintenant que j'ai expliqué certains thèmes de la formalisation, il est
+temps de mentionner quelques phénomènes de haut niveau. Lorsque j'ai
+commencé à étudier, ma stratégie consistait à acquérir une compréhension
+générale de la géométrie projective et de la preuve du théorème de
+Desargues, puis à trouver des solutions en cours de route. Cela n'a pas
+mal marché, mais il convient de noter que ce n'était pas du tout bien
+défini. Une compréhension générale est bien sûr nécessaire, et trouver
+des solutions en cours de route peut sembler pragmatique, mais lorsque je
+me suis finalement assis et que j'ai essayé de mettre en œuvre, j'ai
+immédiatement vu que le début est facile, mais que les conséquences
+seront dures. En effet, j'ai changé mes formulations un nombre
+incalculable de fois. Plus tard, j'ai réalisé que ce remaniement constant
+était en fait une partie importante du voyage.
+
+Ensuite, lorsque j'arrive à un point stable, où je suis satisfait de mes
+formulations et où je n'obtiens aucune erreur du vérificateur de type, je
+me vois souvent un peu perdu, comme si je devais me demander quelle est
+la prochaine chose à énoncer ou à prouver, à nouveau. C'est la
+malédiction de l'approche progressive, et cela m'a incité à attaquer le
+problème de manière régressive.
+
+L'approche régressive consiste à partir du dernier théorème à prouver et
+à déterminer ce qui est nécessaire pour le prouver en termes de
+définitions et de théorèmes, jusqu'à ce que toutes les lacunes soient
+comblées. Cette approche présente ses propres difficultés. Les
+dépendances augmentent de façon exponentielle et je me perds à les
+suivre. Pour faciliter le processus, j'ai décidé, à un moment donné,
+d'utiliser \texttt{Emacs/org-roam}.
+
+Org-roam permet de travailler avec des noeuds. Dans chaque noeud, je
+conserve une définition ou un théorème. L'intérêt est de pouvoir les
+relier entre eux. J'obtiens ainsi une toile de définitions et de
+théorèmes. Ce qui est encore plus intéressant, c'est de pouvoir
+visualiser ce réseau, de manière totalement interactive. Cette méthode de
+travail a considérablement développé ma compréhension de la pratique des
+mathématiques. Je pense que tout mathématicien devrait au moins utiliser
+une fois cette méthode de construction d'un arbre de dépendance.
+
+Je n'ai pas pu terminer complètement l'arbre de dépendance, mais je pense
+en avoir réalisé une assez grande partie. Analysons-le.
+\begin{sidewaysfigure}
+  \centering
+  \tiny
+  \includesvg[width=\textwidth]{figures/dependency-tree.svg}
+  \caption{L'arbre de dépendance de la preuve du théorème de Desargues.}
+  \label{fig:dep-tree}
+\end{sidewaysfigure}
+Tout d'abord, notez qu'il s'agit d'une génération automatique de
+graphiques, c'est un fichier \texttt{svg} de haute qualité. Le théorème
+final se trouve en haut de la figure. Il s'agit de la projectivisation
+des espaces vectoriels, c'est-à-dire le théorème de Desargues habituel
+pour les élèves du secondaire. Immédiatement après, nous avons la forme
+générale du théorème.
+
+La forme générale dépend de deux définitions majeures : La
+\textbf{géométrie arguésienne} et le \textbf{plongement de sous-espace}.
+Ceci est logique et probablement visible par la plupart des lecteurs.
+Mais en y regardant de plus près, on s'aperçoit que les définitions de
+l'\textbf{hyperplan} et des \textbf{morphismes} sont respectivement
+reliées par quatre et trois flèches. En d'autres termes, ils ont le plus
+grand nombre de liens de retour parmi les nœuds : Ce sont des nœuds
+centraux. Nous disons que de telles choses sont des concepts centraux.
+Mais dans le graphique, nous disposons d'une mesure quantifiée de
+l'importance d'un concept.
+
+Ce fut très instructif, et je pense pouvoir dire que ce fut la partie la
+plus utile du voyage de formalisation.
+
+Pour conclure mes propos sur les dépendances, j'ajouterai une petite
+découverte que j'ai faite lorsque je transcrivais le ($\text{P}_9$).
+Jusqu'à ce moment-là, toutes les transcriptions étaient presque mot à
+mot, phrase à phrase aux details de Lean près. Dans ($\text{P}_9$), à la
+dernière phrase, je lis \say{\ldots et par ($\text{P}_4$) on conclut
+que\ldots}, mais il faut en fait appliquer ($\text{P}_4$) deux fois.
+Dans la preuve de ($\text{P}_8$), je lis \say{\ldots en appliquant deux
+fois ($\text{P}_7$).}, donc quand il faut appliquer un théorème deux
+fois, c'est indiqué dans le livre. Donc, soit on l'a oublié, soit il
+s'agit d'une omission incohérente.
+\section{Décidabilité}
+Lors de la définition de l'opérateur $\star$, il faut supposer que
+l'égalité de deux éléments de $G$ est décidable.
+\begin{leancode}
+variable [DecidableEq G]
+\end{leancode}
+Voici la définition de l'opérateur $\star$.
+\begin{leancode}
+def star
+  [ProjectiveGeometry G ell]
+  (a b : G) :
+    Set G :=
+  {c : G | if a = b then c = a else ell a b c}
+\end{leancode}
+Lorsque nous omettons l'égalité décidable de $G$, nous obtenons l'erreur
+:
+\begin{leancode}
+-- failed to synthesize instance
+--   Decidable (a = b)
+\end{leancode}
+\section{Simplification}
+Comme la plus grande partie du travail consiste à réécrire l'expression
+de l'objectif, il est utile de disposer d'une automatisation pour cela.
+Lean a cette syntaxe où vous mettez la balise \mintinline{lean}{@[simp]}
+juste avant une définition ou un théorème qui énonce une égalité, la
+tactique \texttt{simp} applique automatiquement ces définitions et
+théorèmes balisés à l'objectif. La définition de l'opérateur $\star$ est
+assez appropriée pour cela. Voici la version balisée de la définition :
+\begin{leancode}
+@[simp]
+def star
+  [ProjectiveGeometry G ell]
+  (a b : G) :
+    Set G :=
+  {c : G | if a = b then c = a else ell a b c}
+\end{leancode}
+\chapter{Conclusion}
+Je me souviens avoir été averti par Yaël Dillies que la formalisation de
+la géométrie est étonnamment trompeuse. Je comprends maintenant que c'est
+peut-être le cas parce que la preuve de ($\text{P}_5$) fait 53 lignes et
+celle de ($\text{P}_9$) 77 lignes de code. Leurs versions informelles
+sont toutes deux de 5 lignes. Dans les deux, il y a de nombreux cas où je
+dois considérer à plusieurs reprises les cas où deux points sont
+distincts ou non. Et dans la preuve informelle, ces cas sont omis, pour
+de bon. Je pense que pour continuer ce projet, il faut absolument avoir
+une automatisation qui gère ces analyses de cas creux. Ce besoin
+d'automatisation apparaît également lorsque je prouve la symétrie de la
+relation de colinéarité. Les preuves ne sont que des applications de la
+permutation. Il est possible d'appliquer correctement les permutations ou
+d'effectuer une recherche par force brute. Dans le cas où nous avons $3!
+- 1$, il ne s'agit pas vraiment d'une recherche longue.
+
+En dehors de ce goulot d'étranglement technique, les bases sont
+formalisées. Il est démontré que les droites sont des sous-espaces, et
+que les sous-espaces sont des sous-géométries projectives. C'est l'étape
+à laquelle se trouve le projet, à la fin de l'étude.
+
+Pour poursuivre la formalisation, il faut absolument compléter le graphe
+de dépendance. Ensuite, tous les théorèmes requis devraient être énoncés
+et assumés. L'objectif est que le théorème de Desargues soit énoncé, mais
+non prouvé. Les lacunes peuvent être comblées à l'aide du livre, je ne
+pense pas que ce soit si difficile à ce stade.
+\backmatter
 \nocite{*}
-\printbibliography[title=Références,heading=subbibliography]
+\printbibliography[title=Références]
 \end{document}
