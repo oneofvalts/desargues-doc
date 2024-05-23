@@ -1,12 +1,11 @@
 \documentclass[10pt]{memoir}
 
 \newlength{\pagew}
-
 \newlength{\pageh}
-\setlength{\pagew}{210mm}
-\setlength{\pageh}{297mm}
-%\setlength{\pagew}{125mm}
-%\setlength{\pageh}{201mm}
+%\setlength{\pagew}{210mm}
+%\setlength{\pageh}{297mm}
+\setlength{\pagew}{125mm}
+\setlength{\pageh}{201mm}
 
 \setlength{\headheight}{20pt}
 \setlength{\headsep}{10pt}
@@ -41,11 +40,13 @@
 % \usepackage{newpxmath}
 
 \usepackage[math-style=ISO, bold-style=ISO]{unicode-math}
-\setmainfont{EB Garamond}
-\setmathfont{Garamond-Math.otf}[StylisticSet={7,9}]
+% \setmainfont{Garamond Libre}
+% \setmathfont{Garamond-Math.otf}[StylisticSet={7,9}]
 % \setmainfont{TeX Gyre Pagella}
 % \setmathfont{TeX Gyre Pagella Math}
-\setmonofont[Scale=MatchLowercase]{Iosvmata}
+\setmainfont{Linux Biolinum O}
+\setmathfont{TeX Gyre Pagella Math}
+\setmonofont[Scale=0.75]{Iosvmata}
 \usepackage{microtype}
 
 % Put figures at the end of the document
@@ -200,8 +201,6 @@ colorlinks
   \vspace{2.25cm}
   {\Large\textbf{Formalisation du théorème de Desargues en Lean}}
 
-  Rapport 4
-
   \vspace{1.25cm}
   Préparé par \textbf{Abdullah Uyu}
 
@@ -212,6 +211,15 @@ colorlinks
   \vspace*{\fill}
 \end{center}
 \iraggedright
+\clearpage
+\null{}
+\vfill{}
+Ce document est composé avec \texttt{xelatex} dans Linux Biolinum pour le
+corps du texte et TeX Gyre Pagella Math pour les mathématiques, tous deux
+en 10pt.
+
+Le code source de la formalisation, ce document et le schéma de preuve
+peuvent être trouvés dans \url{https://github.com/oneofvalts}.
 \chapter*{Remerciments}
 Tout d'abord, je tiens à remercier mon professeur, Can Ozan, pour
 l'attention et le soin qu'il a apportés à mon étude. Il a non seulement
@@ -262,7 +270,7 @@ formaliser le théorème de Desargues dans Lean.
 Pour motiver les géométries projectives, on commence par considérer
 les droites passant par l'origine dans le plan. On peut représenter la
 plupart de ces lignes par des points sur l'axe $y=1$.
-\begin{figure}[H]
+\begin{figure}%[H]
   \centering
   \begin{tikzpicture}
     \draw[-stealth,semithick] (-4,0)--(4,0) node[right] {$x$};
@@ -290,7 +298,7 @@ la droite que l'on ne parviendra pas à représenter sera la droite
 Effectuons la même procédure pour l'espace. On peut représenter la
 plupart des droites passant par l'origine par des points sur le plan
 $z=1$.
-\begin{figure}[H]
+\begin{figure}%[H]
   \centering
   \begin{pspicture}[viewpoint=30 40 30 rtp2xyz] (-5,-2) (5,4)
     \psSolid[object=plan,
@@ -805,7 +813,7 @@ J'ai été enthousiasmé de voir que les épreuves données dans le livre
 fonctionnaient bien. Cela passe par l'efficacité des preuves, la mention
 claire et explicite des propriétés, remarques, propositions ou théorèmes
 précédents montrés. Le livre a un sens de l'ordre très précis ; en tant
-qu'étudiant de premier cycle, j'étais un peu timide à l'approche du
+qu'étudiant de licence, j'étais un peu timide à l'approche du
 livre, mais avec le temps et sa précision, je me suis continuellement
 familiarisé avec le livre.
 
