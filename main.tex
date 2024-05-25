@@ -215,8 +215,8 @@ colorlinks
 \null{}
 \vfill{}
 Ce document est composé avec \texttt{xelatex} dans Linux Biolinum pour le
-corps du texte et TeX Gyre Pagella Math pour les mathématiques, tous deux
-en 10pt.
+corps du texte, TeX Gyre Pagella Math pour les mathématiques et Iosvmata
+pour le code source, tous en 10pt.
 
 Le code source de la formalisation, ce document et le schéma de preuve
 peuvent être trouvés dans \url{https://github.com/oneofvalts}.
@@ -233,7 +233,7 @@ aidaient également l'étude à reprendre son rythme dans les moments
 critiques.
 
 Je dois également remercier les utilisateurs du canal Zulip Anand Patel,
-André Hernández-Espiet (Rutgers), Eric Wieser, Filippo A. E. Nuccio,
+André Hernández-Espiet, Eric Wieser, Filippo A. E. Nuccio,
 Jireh Loreaux, Joseph Myers, Kevin Buzzard, Kyle Miller, Matt Diamond,
 Patrick Massot, Riccardo Brasca, Richard Copley, Ruben Van de Velde,
 Sabrina Jewson, Sophie Morel et Yaël Dillies pour leur aide dans le cadre
@@ -748,7 +748,7 @@ La fonction \texttt{Independent} provient de mathlib4. Elle prend trois points
 de la projectivisation et affirme que leurs représentants sont linéairement
 dépendants. Sur le plan technique, il prend une famille de points de
 projectivisation. Une famille est une fonction d'indices dans des points.
-Heureusement, Lean dispose d'une syntaxe pour convertir une liste en une telle
+Heureusement, mathlib4 dispose d'une syntaxe pour convertir une liste en une telle
 fonction : \say{\texttt{!}}. Si elle n'existait pas, on devrait l'écrire
 manuellement :
 \begin{leancode}
