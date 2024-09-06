@@ -59,6 +59,7 @@ BoldItalicFont = Junicode SmExp Bold Italic
 %BoldItalicFont = Cooper-MediumItalic.ttf
 %]
 %\setmainfont{EB Garamond}
+
 \setmathfont{Garamond-Math.otf}[StylisticSet={7,9}, Scale=MatchUppercase]
 %\setmathfont[range=it]{Junicode Italic}
 \setmathfont[range=it]{Junicode SmExp Italic}
@@ -171,7 +172,8 @@ unicode,
 \makeatletter
 \renewcommand\printchaptername{}
 \renewcommand\printchapternum{}
-\renewcommand\chaptitlefont{\bfseries\LARGE}
+\renewcommand\chaptitlefont{\bfseries\scshape\Large}
+\renewcommand\secheadstyle{\bfseries\large}
 \renewcommand\beforechapskip{0cm}
 \renewcommand\midchapskip{0pt}
 \renewcommand\afterchapskip{1.8ex}
