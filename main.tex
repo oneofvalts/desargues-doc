@@ -1,31 +1,32 @@
-\documentclass[10pt]{memoir}
+\documentclass[fleqn, leqno, a4paper, openright, twoside, 11pt]{memoir}
+%\documentclass[10pt]{memoir}
 
-\newlength{\pagew}
-\newlength{\pageh}
-%\setlength{\pagew}{210mm}
-%\setlength{\pageh}{297mm}
-\setlength{\pagew}{125mm}
-\setlength{\pageh}{201mm}
+%\newlength{\pagew}
+%\newlength{\pageh}
+%%\setlength{\pagew}{210mm}
+%%\setlength{\pageh}{297mm}
+%\setlength{\pagew}{125mm}
+%\setlength{\pageh}{201mm}
+%
+%\setlength{\headheight}{20pt}
+%\setlength{\headsep}{10pt}
+%\setlength{\footskip}{20pt}
+%
+%% \setlength{\headheight}{0pt}
+%% \setlength{\headsep}{40pt}
+%% \setlength{\footskip}{25pt}
+%% \setlength{\pagew}{125mm}
+%% \setlength{\pageh}{205mm}
+%
+%\setstocksize{\pageh}{\pagew}
+%\settrimmedsize{\pageh}{\pagew}{*}
+%\settypeblocksize{170mm}{110mm}{*}
+%\setlrmargins{*}{*}{1}
+%\setulmargins{*}{*}{1}
+%\setmarginnotes{0cm}{0cm}{0cm}
+%\checkandfixthelayout
 
-\setlength{\headheight}{20pt}
-\setlength{\headsep}{10pt}
-\setlength{\footskip}{20pt}
-
-% \setlength{\headheight}{0pt}
-% \setlength{\headsep}{40pt}
-% \setlength{\footskip}{25pt}
-% \setlength{\pagew}{125mm}
-% \setlength{\pageh}{205mm}
-
-\setstocksize{\pageh}{\pagew}
-\settrimmedsize{\pageh}{\pagew}{*}
-\settypeblocksize{170mm}{110mm}{*}
-\setlrmargins{*}{*}{1}
-\setulmargins{*}{*}{1}
-\setmarginnotes{0cm}{0cm}{0cm}
-\checkandfixthelayout
-
-% \usepackage[pass, showframe]{geometry}
+%\usepackage[pass, showframe]{geometry}
 
 \usepackage[french]{babel}
 
@@ -40,17 +41,51 @@
 % \usepackage{newpxmath}
 
 \usepackage[math-style=ISO, bold-style=ISO]{unicode-math}
-% \setmainfont{Garamond Libre}
-% \setmathfont{Garamond-Math.otf}[StylisticSet={7,9}]
-% \setmainfont{TeX Gyre Pagella}
-% \setmathfont{TeX Gyre Pagella Math}
-\setmainfont{Linux Biolinum O}
-\setmathfont{TeX Gyre Pagella Math}
-\setmonofont[Scale=0.75]{Iosvmata}
+
+%\setmainfont{TeX Gyre Pagella}
+%\setmathfont{TeX Gyre Pagella Math}
+
+%\setmainfont{Junicode}[Language=Turkish]
+\setmainfont{Junicode SmExp}[
+Language=French,
+BoldFont = Junicode SmExp Bold,
+ItalicFont = Junicode SmExp Italic,
+BoldItalicFont = Junicode SmExp Bold Italic
+]
+%\setmainfont[Language=French]{Andada Pro}
+%\setmainfont{Cooper}[
+%BoldFont = Cooper-Medium.ttf,
+%ItalicFont = Cooper-Italic.ttf,
+%BoldItalicFont = Cooper-MediumItalic.ttf
+%]
+%\setmainfont{EB Garamond}
+\setmathfont{Garamond-Math.otf}[StylisticSet={7,9}, Scale=MatchUppercase]
+%\setmathfont[range=it]{Junicode Italic}
+\setmathfont[range=it]{Junicode SmExp Italic}
+\setmathrm{Garamond Libre}
+%\setmathfont{STIX Two Math}[Scale=MatchUppercase]
+
+%\setmainfont{KPRoman}
+%\setmathfont{KPMath}
+
+%\setmainfont{STIX Two Text}
+%\setmathfont{STIX Two Math}
+
+\setmonofont[Scale=MatchLowercase]{Iosvmata}
+
 \usepackage{microtype}
 
+%\setSingleSpace{1.15}
+%\SingleSpacing
+
+\usepackage{caption}
+%\captionsetup{justification=raggedright,singlelinecheck=false}
+\setlength{\mathindent}{1em}
+
+\cftpagenumbersoff{chapter}
+
 % Put figures at the end of the document
-% \usepackage[nomarkers, figuresonly]{endfloat}
+\usepackage[nomarkers, figuresonly]{endfloat}
 
 % \usepackage[no-math]{fontspec}
 % \setmainfont{EB Garamond}
@@ -73,8 +108,10 @@
 \usepackage{minted}
 
 \definecolor{bg}{rgb}{0.95,0.95,0.95}
-\newmintinline[lean]{lean}{bgcolor=bg}
-\newminted[leancode]{lean}{bgcolor=bg}
+%\newmintinline[lean]{lean}{bgcolor=bg}
+%\newminted[leancode]{lean}{bgcolor=bg}
+\newmintinline[lean]{text}{bgcolor=bg}
+\newminted[leancode]{text}{bgcolor=bg}
 \usemintedstyle{tango}
 
 \usepackage{float}
@@ -102,7 +139,7 @@
 \usetikzlibrary{intersections}
 
 \usetikzlibrary{external}
-\tikzexternalize[prefix=figures/]
+\tikzexternalize[prefix=ext/]
 
 % \usepackage{comment}
 % \excludecomment{figure}
@@ -120,7 +157,7 @@ style=alphabetic
 
 \usepackage[
 unicode,
-colorlinks
+%colorlinks
 ]{hyperref}
 
 \usepackage{cleveref}
@@ -178,7 +215,8 @@ colorlinks
 
 \begin{document}
 \frontmatter
-\thispagestyle{empty}
+\pagestyle{empty}
+\pagenumbering{gobble}
 \begin{center}
   \vspace*{\fill}
   % {%
@@ -198,19 +236,20 @@ colorlinks
 
   {\small Spécialité : \textbf{Mathématiques}}
 
-  \vspace{2.25cm}
+  \vspace{0.75cm}
   {\Large\textbf{Formalisation du théorème de Desargues en Lean}}
 
-  \vspace{1.25cm}
+  \vspace{0.75cm}
   Préparé par \textbf{Abdullah Uyu}
 
   Résponsable : \textbf{Can Ozan Oğuz}
 
-  \vspace{2.25cm}
-  \textit{6 mai 2024}
+  \vspace*{\fill}
+  \textit{Juin 2024}
   \vspace*{\fill}
 \end{center}
 \iraggedright
+\raggedbottom
 \clearpage
 \null{}
 \vfill{}
@@ -447,7 +486,7 @@ colinéation.
 \begin{exm}
   Soit $T: \R^n \to \R^n$ une application linéaire
   bijective. L'application $g: \proj(\R^n) \to \proj(\R^n)$,
-  $[x] \mapsto [T(x)]$ est une isomorphisme de géometries projectives.
+  $[x] \mapsto [T(x)]$ est un isomorphisme de géometries projectives.
 
   L'application $g$ est bien définie: Soit $x, y \in \R^n$ tel que
   $[x] = [y]$, i.e. $x = ky$ pour un $k \in \R$. On a:
@@ -462,7 +501,7 @@ colinéation.
   que $[T(x)] = [T(y)]$, i.e. $T(x) = kT(y)$ pour un $k \in \R$. Comme
   $T$ est linéaire, $T(x) = T(ky)$. De plus, $x = ky$ car $T$ est
   injective. Par la définition de la classe d'équivalence, on obtient
-  $[x] = [y]$. D'où $g$ est injective. Pour la surjectivité, prenons
+  $[x] = [y]$. D'où, $g$ est injective. Pour la surjectivité, prenons
   $[x] \in \proj(\R^n)$. Comme $T$ est bijective, $T^{-1}$ existe, et
   $[T^{-1}(x)] \in \proj(\R^n)$. Ainsi
   $g([T^{-1}(x)]) = [T(T^{-1}(x))] = [x]$. D'où, $g$ est
@@ -499,23 +538,23 @@ application linéaire.
 
   Montrons que $g$ est injective. Soit $x_{1}, x_{2}, x_{1}', x_{2}'$ des réels
   tel que
-  $$
-  [((x_{1} / x_{2})^{3}, 1)] = [((x_{1}' / x_{2}')^{3}), 1].
-  $$
+  \[
+  [((x_{1} / x_{2})^{3}, 1)] = [((x_{1}' / x_{2}')^{3}, 1)].
+  \]
   On va montrer que $[(x_{1}, x_{2})] = [(x_{1}', x_{2}')]$. Par la définition
   de la classe d'équivalence, on a
-  $$
-  ((x_{1} / x_{2})^{3}, 1) = k ((x_{1} / x_{2}')^{3}, 1)
-  $$
+  \[
+  ((x_{1} / x_{2})^{3}, 1) = k ((x_{1}' / x_{2}')^{3}, 1)
+  \]
   pour un $k$ non-nul. Alors, $k = 1$ et on a:
-  $$
+  \[
   x_{1} / x_{2} = x_{1}' / x_{2}'.
-  $$
+  \]
   Si $x_{1}$ est nul, alors $x_{1}'$ l'est aussi, et donc on a:
   \begin{align*}
-    [(0, x_{2})] &= [0, \frac{x_{2}'}{x_{2}} x_{2}] \quad \text{ classe
+    [(0, x_{2})] &= [(0, \frac{x_{2}'}{x_{2}} x_{2})] \quad \text{ classe
                    d'équivalence définition} \\
-                 &= [0, x_{2}]
+                 &= [(0, x_{2}')]
   \end{align*}
   Sinon on a $x_{1} / x_{1}' = x_{2} / x_{2}'$ et donc:
   \begin{align*}
@@ -543,21 +582,34 @@ application linéaire.
   $T(0, 1) = (0, k_{2})$ pour $k_{1}, k_{2}$ non-nuls. Soit $x$ un réel.
   D'une part, on a $T(x, 1) = k_{x} (x^{3}, 1)$ pour un $k_{x}$ non-nul, et
   d'autre part, on a $T(x, 1) = x T(1, 0) + T(0, 1)$. Donc, on a:
-  $$
+  \[
   k_{x} (x^{3}, 1) = x (k_{1}, 0) + (0, k_{2})
-  $$
+  \]
   Par conséquent, on obtient l'égalité des polynômes $k_{2}x^{3} = k_{1}x$ qui
   entraîne $k_{1} = k_{2} = 0$. Ceci oblige $T = 0$ qui est absurde.
 \end{exm}
 \section{Sous-espaces}
 Cette partie comprend les structures qui sont importantes pour la
-première grande étape du projet.
+première grande étape du projet. D'abord, on donne une deuxième
+axiomatisation.
+\begin{prop}
+  Soit $G = (G, \ell)$ une géométrie projective. L'opérateur $\star : G
+  \times G \to \symcal{P}(G)$ définie par $a \star b \defeq \setcomp{c \in
+  G}{\ell (a, b, c)}$ si $a \neq b$ et $a \star a \defeq \set{a}$ ont les
+  propriétés suivantes:
+  \begin{itemize}[align=left]
+    \item[($\text{P}_1$)] $a \star a = \set{a}$ pour tout $a \in G$.
+    \item[($\text{P}_2$)] $a \in b \star a$ pour tout $a, b \in G$.
+    \item[($\text{P}_3$)] $a \in b \star p$ et $p \in c \star d$ et $a
+      \neq c$ implique $(a \star c) \cap (b \star d) \neq \emptyset$.
+  \end{itemize}
+\end{prop}
 \begin{defn}
   Un \textit{sous-espace} d'un géométrie projective $G$ est un
   sous-ensemble $E \subseteq G$ satisfaisant
-  $$
+  \[
   a, b \in E \implies a \star b \subseteq E
-  $$
+  \]
 \end{defn}
 \begin{defn}
   Un \textit{sous-géométrie projective} d'un géométrie projective $G$ est
@@ -658,9 +710,11 @@ Maintenant, on peut énoncer les axiomes $\text{L}_1$, $\text{L}_2$ et
 $\text{L}_3$ dans la \cref{projective-geometry}.
 \begin{leancode}
 axiom l1 (a b : Point) : ell a b a
-axiom l2 (a b p q : Point) : ell a p q → ell b p q → p ≠ q → ell a b p
+axiom l2 (a b p q : Point) : ell a p q → ell b p q → p ≠ q →
+                             ell a b p
 axiom l3 (a b c d p: Point) : ell p a b → ell p c d →
-                              ∃ q : Point , ell q a c ∧ ell q b d
+                              ∃ q : Point,
+                              ell q a c ∧ ell q b d
 \end{leancode}
 Il y a quelques points à noter ici. Tout d'abord, les flèches
 utilisées ici sont différentes de celles que nous avons utilisées
@@ -690,13 +744,14 @@ $\ell(a, b, c)$. Ici, on ne donnera que $\ell(a, c, b)$ et les cinq
 autres versions seront omises.
 \begin{leancode}
 theorem acb
-  (a b c : Point) :
-    ell a b c → ell a c b := by
-  intro acb_col -- Supposons que $\ell(a,b,c)$.
+  (a b c : Point)
+  (abc_col: ell a b c) :
+    ell a c b := by
+  intro abc_col -- Supposons que $\ell(a,b,c)$.
   obtain rfl | bc_neq := eq_or_ne b c -- Si $b = c$,
-  exact acb_col -- le résultat est trivial,
+  exact abc_col -- le résultat est trivial,
   apply l2 a c b c -- sinon on applique $\text{L}_2$;
-  exact acb_col -- première condition de $\text{L}_2$
+  exact abc_col -- première condition de $\text{L}_2$
   apply l1 c b -- deuxième condition de $\text{L}_2$
   exact bc_neq -- troisième condition de $\text{L}_2$.
 \end{leancode}
@@ -786,7 +841,8 @@ class ProjectiveGeometry
   (ell : G → G → G → Prop) where
   l1  : ∀ a b , ell a b a
   l2  : ∀ a b p q , ell a p q → ell b p q → p ≠ q → ell a b p
-  l3  : ∀ a b c d p, ell p a b → ell p c d → ∃ q, ell q a c ∧ ell q b d
+  l3  : ∀ a b c d p, ell p a b → ell p c d →
+        ∃ q, ell q a c ∧ ell q b d
 \end{leancode}
 Cela correspond en fait à la définition donnée dans le livre : Une
 géométrie projective est un ensemble $G$ avec une relation de colinéarité
@@ -983,7 +1039,9 @@ Lorsque nous omettons l'égalité décidable de $G$, nous obtenons l'erreur
 \section{Simplification}
 Comme la plus grande partie du travail consiste à réécrire l'expression
 de l'objectif, il est utile de disposer d'une automatisation pour cela.
-Lean a cette syntaxe où vous mettez la balise \mintinline{lean}{@[simp]}
+Lean a cette syntaxe où vous mettez la balise
+%\texttt{@[simp]}
+\mintinline{lean}{@[simp]}
 juste avant une définition ou un théorème qui énonce une égalité, la
 tactique \texttt{simp} applique automatiquement ces définitions et
 théorèmes balisés à l'objectif. La définition de l'opérateur $\star$ est
