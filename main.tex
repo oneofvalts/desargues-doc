@@ -1,30 +1,32 @@
+% -*- TeX-engine: luatex; TeX-command-extra-options: "-shell-escape"; -*-
+
 \documentclass[fleqn, leqno, a4paper, openright, oneside, 10pt]{memoir}
 %\documentclass[10pt]{memoir}
 
-%\newlength{\pagew}
-%\newlength{\pageh}
-%%\setlength{\pagew}{210mm}
-%%\setlength{\pageh}{297mm}
-%\setlength{\pagew}{125mm}
-%\setlength{\pageh}{201mm}
-%
-%\setlength{\headheight}{20pt}
-%\setlength{\headsep}{10pt}
-%\setlength{\footskip}{20pt}
-%
-%% \setlength{\headheight}{0pt}
-%% \setlength{\headsep}{40pt}
-%% \setlength{\footskip}{25pt}
-%% \setlength{\pagew}{125mm}
-%% \setlength{\pageh}{205mm}
-%
-%\setstocksize{\pageh}{\pagew}
-%\settrimmedsize{\pageh}{\pagew}{*}
-%\settypeblocksize{170mm}{110mm}{*}
-%\setlrmargins{*}{*}{1}
-%\setulmargins{*}{*}{1}
-%\setmarginnotes{0cm}{0cm}{0cm}
-%\checkandfixthelayout
+\newlength{\pagew}
+\newlength{\pageh}
+%\setlength{\pagew}{210mm}
+%\setlength{\pageh}{297mm}
+\setlength{\pagew}{125mm}
+\setlength{\pageh}{201mm}
+
+\setlength{\headheight}{20pt}
+\setlength{\headsep}{10pt}
+\setlength{\footskip}{20pt}
+
+% \setlength{\headheight}{0pt}
+% \setlength{\headsep}{40pt}
+% \setlength{\footskip}{25pt}
+% \setlength{\pagew}{125mm}
+% \setlength{\pageh}{205mm}
+
+\setstocksize{\pageh}{\pagew}
+\settrimmedsize{\pageh}{\pagew}{*}
+\settypeblocksize{170mm}{110mm}{*}
+\setlrmargins{*}{*}{1}
+\setulmargins{*}{*}{1}
+\setmarginnotes{0cm}{0cm}{0cm}
+\checkandfixthelayout
 
 %\usepackage[pass, showframe]{geometry}
 
@@ -42,37 +44,64 @@
 
 \usepackage[math-style=ISO, bold-style=ISO]{unicode-math}
 
-%\setmainfont{TeX Gyre Pagella}
-%\setmathfont{TeX Gyre Pagella Math}
+% \setmainfont{Bodoni 06pt Book}[
+% BoldFont = Bodoni 06pt Medium,
+% ItalicFont = Bodoni 06pt Book Italic,
+% BoldItalicFont = Bodoni 06pt Medium Italic
+% ]
 
-%\setmainfont{Junicode}[Language=Turkish]
-\setmainfont{Junicode SmExp}[
-Language=French,
-BoldFont = Junicode SmExp Bold,
-ItalicFont = Junicode SmExp Italic,
-BoldItalicFont = Junicode SmExp Bold Italic
-]
+% \setmainfont{TeX Gyre Pagella}
+% \setmathfont{TeX Gyre Pagella Math}
+
+% \setmainfont{Gentium Plus}
+% \setmainfont{Junicode}[Language=Turkish]
+
+% \setmainfont{Junicode SmExp}[
+% Language=French,
+% BoldFont = Junicode SmExp Bold,
+% ItalicFont = Junicode SmExp Italic,
+% BoldItalicFont = Junicode SmExp Bold Italic
+% ]
+
 %\setmainfont[Language=French]{Andada Pro}
-%\setmainfont{Cooper}[
-%BoldFont = Cooper-Medium.ttf,
-%ItalicFont = Cooper-Italic.ttf,
-%BoldItalicFont = Cooper-MediumItalic.ttf
-%]
-%\setmainfont{EB Garamond}
 
-\setmathfont{Garamond-Math.otf}[StylisticSet={7,9}, Scale=MatchUppercase]
+% \setmainfont{Cooper}[%
+% Path = /home/aby/.local/share/fonts/,
+% UprightFont = Cooper-Regular.ttf,
+% BoldFont = Cooper-Medium.ttf,
+% ItalicFont = Cooper-Italic.ttf,
+% BoldItalicFont = Cooper-MediumItalic.ttf
+% ]
+
+\setmainfont{EB Garamond}
+
+% \setmathfont{Garamond-Math.otf}[StylisticSet={7,9}, Scale=MatchUppercase]
+% \setmathfont{Garamond-Math.otf}[Scale=MatchUppercase, StylisticSet={2, 6, 8, 9, 11}]
+
+\setmathfont{Garamond-Math.otf}[StylisticSet={2, 6, 8, 9}]
+\setmathfont{Garamond-Math.otf}[range={scr,bfscr}]
+
 %\setmathfont[range=it]{Junicode Italic}
-\setmathfont[range=it]{Junicode SmExp Italic}
-\setmathrm{Garamond Libre}
+% \setmathfont[range=it, Scale=MatchUppercase]{Gentium Plus Italic}
+% \setmathfont[range=it, Scale=MatchUppercase]{Junicode Italic}
+% \setmathfont[range=up/num, Scale=MatchUppercase]{Junicode}
+% \setmathfont[range=it, Scale=MatchUppercase]{Bodoni 06pt Book Italic}
+
+% \setmathfont[range=it/{Greek, greek}, Scale=MatchUppercase]{Junicode Italic}
+% \setmathfont[range=it/{Latin, latin}, Scale=MatchUppercase]{Cooper-Italic.otf}[Path = /home/aby/.local/share/fonts/]
+% \setmathfont[range=up/num, Scale=MatchUppercase]{Cooper-Regular.ttf}[Path = /home/aby/.local/share/fonts/]
+
+%\setmathrm{Garamond Libre}
 %\setmathfont{STIX Two Math}[Scale=MatchUppercase]
 
-%\setmainfont{KPRoman}
-%\setmathfont{KPMath}
+% \setmainfont{KPRoman}
+% \setmathfont{KPMath}
 
-%\setmainfont{STIX Two Text}
-%\setmathfont{STIX Two Math}
+% \setmainfont{STIX Two Text}
+% \setmathfont{STIX Two Math}
 
-\setmonofont[Scale=MatchLowercase]{Iosvmata}
+\setmonofont[Scale=MatchLowercase]{Iosevka Fixed}
+% \setmonofont[Scale=0.75]{Iosevka Fixed}
 
 \usepackage{microtype}
 
@@ -139,8 +168,8 @@ BoldItalicFont = Junicode SmExp Bold Italic
 \usepackage{tikz}
 \usetikzlibrary{intersections}
 
-\usetikzlibrary{external}
-\tikzexternalize[prefix=ext/]
+% \usetikzlibrary{external}
+% \tikzexternalize[prefix=ext/]
 
 % \usepackage{comment}
 % \excludecomment{figure}
@@ -158,7 +187,7 @@ style=alphabetic
 
 \usepackage[
 unicode,
-%colorlinks
+colorlinks
 ]{hyperref}
 
 \usepackage{cleveref}
@@ -255,9 +284,9 @@ unicode,
 \clearpage
 \null{}
 \vfill{}
-Ce document est composé avec \texttt{LuaTeX} dans Junicode pour le
-corps du texte, Garamond Math et Junicode pour les mathématiques et Iosvmata
-pour le code source, tous en 10pt.
+Ce document est composé avec \texttt{XeTeX} dans EB Garamond pour le corps du
+texte, Garamond Math, pour les mathématiques et Iosevka pour le code source,
+tous en 10pt.
 
 Le code source de la formalisation, ce document et le schéma de preuve
 peuvent être trouvés dans \url{https://github.com/oneofvalts}.
