@@ -1,12 +1,12 @@
-% -*- TeX-engine: luatex; TeX-command-extra-options: "-shell-escape"; -*-
+% -*- TeX-engine: xetex; TeX-command-extra-options: "-shell-escape"; -*-
 
-\documentclass[fleqn, leqno, a4paper, openright, oneside, 10pt]{memoir}
-%\documentclass[10pt]{memoir}
+% \documentclass[fleqn, leqno, a4paper, openright, oneside, 10pt]{memoir}
+\documentclass[fleqn, leqno, openright, oneside, 10pt]{memoir}
 
 \newlength{\pagew}
 \newlength{\pageh}
-%\setlength{\pagew}{210mm}
-%\setlength{\pageh}{297mm}
+% \setlength{\pagew}{210mm}
+% \setlength{\pageh}{297mm}
 \setlength{\pagew}{125mm}
 \setlength{\pageh}{201mm}
 
@@ -40,9 +40,19 @@
 \usepackage{amsmath}
 \usepackage{amsthm}
 \usepackage{physics}
-% \usepackage{newpxmath}
 
-\usepackage[math-style=ISO, bold-style=ISO]{unicode-math}
+% \usepackage[math-style=french, bold-style=TeX]{fourier-otf}
+
+\usepackage[math-style=french, bold-style=TeX]{unicode-math}
+
+\setmainfont[Numbers=Lining]{Junicode}
+
+\setmathfont{Garamond-Math.otf}[StylisticSet={2, 6, 8, 9}]
+\setmathfont{Garamond-Math.otf}[range={scr,bfscr}]
+
+\setmathfont[Numbers=Lining, range=it, Scale=MatchUppercase]{Junicode-Math.otf}[Path = /home/aby/junicode-math/]
+\setmathfont[Numbers=Lining, range=up, Scale=MatchUppercase]{Junicode-Regular.otf}[Path = /home/aby/junicode-math/]
+\setmathfont[Numbers=Lining, range=bfup, Scale=MatchUppercase]{Junicode Bold}
 
 % \setmainfont{Bodoni 06pt Book}[
 % BoldFont = Bodoni 06pt Medium,
@@ -73,13 +83,13 @@
 % BoldItalicFont = Cooper-MediumItalic.ttf
 % ]
 
-\setmainfont{EB Garamond}
+% \setmainfont{EB Garamond}
 
 % \setmathfont{Garamond-Math.otf}[StylisticSet={7,9}, Scale=MatchUppercase]
 % \setmathfont{Garamond-Math.otf}[Scale=MatchUppercase, StylisticSet={2, 6, 8, 9, 11}]
 
-\setmathfont{Garamond-Math.otf}[StylisticSet={2, 6, 8, 9}]
-\setmathfont{Garamond-Math.otf}[range={scr,bfscr}]
+% \setmathfont{Garamond-Math.otf}[StylisticSet={2, 6, 8, 9}]
+% \setmathfont{Garamond-Math.otf}[range={scr,bfscr}]
 
 %\setmathfont[range=it]{Junicode Italic}
 % \setmathfont[range=it, Scale=MatchUppercase]{Gentium Plus Italic}
@@ -94,13 +104,25 @@
 %\setmathrm{Garamond Libre}
 %\setmathfont{STIX Two Math}[Scale=MatchUppercase]
 
-% \setmainfont{KPRoman}
-% \setmathfont{KPMath}
+% \setmainfont{KpRoman}[%
+% Path = /usr/share/texmf-dist/fonts/opentype/public/kpfonts-otf/,
+% UprightFont = KpRoman-Regular.otf,
+% BoldtFont = KpRoman-Bold.otf,
+% ItalicFont = KpRoman-Italic.otf,
+% BoldItalicFont = KpRoman-BoldItalic.otf,
+% ]
+% \setmathfont{KpMath-Regular.otf}[%
+% Path = /usr/share/texmf-dist/fonts/opentype/public/kpfonts-otf/
+% ]
 
 % \setmainfont{STIX Two Text}
 % \setmathfont{STIX Two Math}
 
-\setmonofont[Scale=MatchLowercase]{Iosevka Fixed}
+% \setmainfont{Libertinus Serif}
+% \setmathfont{Libertinus Math}
+
+\setmonofont[Scale=MatchLowercase]{Iosevka Etoile}
+% \setmonofont[Scale=MatchLowercase]{Iosevka Fixed}
 % \setmonofont[Scale=0.75]{Iosevka Fixed}
 
 \usepackage{microtype}
@@ -138,10 +160,10 @@
 \usepackage{minted}
 
 \definecolor{bg}{rgb}{0.95,0.95,0.95}
-%\newmintinline[lean]{lean}{bgcolor=bg}
-%\newminted[leancode]{lean}{bgcolor=bg}
-\newmintinline[lean]{text}{bgcolor=bg}
-\newminted[leancode]{text}{bgcolor=bg}
+\newmintinline[lean]{lean}{bgcolor=bg}
+\newminted[leancode]{lean}{bgcolor=bg}
+% \newmintinline[lean]{text}{bgcolor=bg}
+% \newminted[leancode]{text}{bgcolor=bg}
 \usemintedstyle{tango}
 
 \usepackage{float}
@@ -284,9 +306,9 @@ colorlinks
 \clearpage
 \null{}
 \vfill{}
-Ce document est composé avec \texttt{XeTeX} dans EB Garamond pour le corps du
-texte, Garamond Math, pour les mathématiques et Iosevka pour le code source,
-tous en 10pt.
+Ce document est composé avec \texttt{XeTeX} dans Junicode pour le corps du
+texte; Garamond Math et Junicode pour les mathématiques; et Iosevka Etoile pour le code
+source, tous en 10pt.
 
 Le code source de la formalisation, ce document et le schéma de preuve
 peuvent être trouvés dans \url{https://github.com/oneofvalts}.
